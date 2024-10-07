@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Shield, MapPin, MessageCircle } from 'lucide-react';
+import { Shield, MapPin, MessageCircle, TvMinimal } from 'lucide-react';
 
 const Feature = ({ icon, title, description }) => (
   <div className="flex items-start mb-6">
@@ -20,9 +20,9 @@ const WhyChooseUs = () => {
         <p className="text-gray-600 mb-8">We have extensive knowledge and experience in the travel industry.</p>
         
         <Feature
-          icon={<Shield size={24} />}
-          title="Safety and support"
-          description="Our top priority is the safety and well-being of our clients. We maintain high safety standards and have emergency support available during the trip."
+          icon={<TvMinimal size={24} />}
+          title="Easy-to-Use Interface"
+          description="Maintain a consistent visual style throughout the app, using your brand's colors, fonts, and imagery.Use high-resolution images of destinations and activities to create a visually appealing experience. "
         />
         
         <Feature
@@ -33,18 +33,19 @@ const WhyChooseUs = () => {
         
         <Feature
           icon={<MessageCircle size={24} />}
-          title="24/7 Customer Support"
-          description="Our dedicated customer support team is available round the clock to address any queries or concerns before, during, and after the trip."
+          title="Customer Support Section"
+          description="FAQ Section let's you sddress common questions and concerns to provide self-service support. There is even a query box provided if the user has any specific query."
         />
       </div>
       
       <div className="md:w-1/2 relative">
-        <div className="w-64 h-64 rounded-full overflow-hidden absolute top-0 left-0">
+        <div className="w-64 h-84 rounded-full overflow-hidden top-0 left-0">
           <img src="/images/traveller_1.jpg" alt="Travel scene 1" className="w-full h-full object-cover" />
         </div>
-        <div className="w-64 h-64 rounded-full overflow-hidden absolute bottom-0 right-0">
+        <div className="w-64 h-84 rounded-full overflow-hidden absolute bottom-0 right-0">
           <img src="/images/traveller_2.jpg" alt="Travel scene 2" className="w-full h-full object-cover" />
         </div>
+
       </div>
     </div>
   );

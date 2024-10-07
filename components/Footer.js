@@ -1,37 +1,98 @@
 import React from 'react';
+import { FaFacebookF, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 py-4">
-      <div className="container mx-auto flex justify-between">
-        <div>
-          <img src="mou-trips-logo.png" alt="MOU Trips Logo" className="w-20 h-20" />
-          <p className="text-gray-700">MOU Trips</p>
+    <footer className="bg-orange-50 py-8 px-4">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-gray-700">
+        {/* Company Info & Social Media Icons */}
+        <div className="col-span-1">
+          <h2 className="font-bold text-xl mb-2">MapMyTrip</h2>
+          <div className="flex space-x-4 mt-4">
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-orange-600 hover:text-orange-800"
+            >
+              <FaFacebookF size={24} />
+            </a>
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-orange-600 hover:text-orange-800"
+            >
+              <FaTwitter size={24} />
+            </a>
+            <a
+              href="https://youtube.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-orange-600 hover:text-orange-800"
+            >
+              <FaYoutube size={24} />
+            </a>
+          </div>
         </div>
 
-        <div className="flex flex-col space-y-2">
-          <h3 className="text-gray-700 font-bold">Information</h3>
-          <ul className="text-gray-500">
-            <li><a href="/">Home</a></li>
-            <li><a href="/explore">Explore</a></li>
-            <li><a href="/travel">Travel</a></li>
+        {/* Information Links */}
+        <div className="col-span-1">
+          <h3 className="font-bold text-lg mb-2">Information</h3>
+          <ul>
+            <li className="mb-2">
+              <a href="#" className="hover:text-orange-800">
+                Explore
+              </a>
+            </li>
+            <li className="mb-2">
+              <a href="#" className="hover:text-orange-800">
+                Trips
+              </a>
+            </li>
+            <li className="mb-2">
+              <a href="#" className="hover:text-orange-800">
+                Reviews
+              </a>
+            </li>
           </ul>
         </div>
 
-        <div className="flex flex-col space-y-2">
-          <h3 className="text-gray-700 font-bold">Helpful Links</h3>
-          <ul className="text-gray-500">
-            <li><a href="/destination">Destination</a></li>
-            <li><a href="/support">Support</a></li>
-            <li><a href="/travel-conditions">Travel & Conditions</a></li>
+        {/* Helpful Links */}
+        <div className="col-span-1">
+          <h3 className="font-bold text-lg mb-2">Helpful Links</h3>
+          <ul>
+            <li className="mb-2">
+              <a href="#" className="hover:text-orange-800">
+                Home
+              </a>
+            </li>
+            <li className="mb-2">
+              <a href="#" className="hover:text-orange-800">
+                Support
+              </a>
+            </li>
+            <li className="mb-2">
+              <a href="#" className="hover:text-orange-800">
+                Travel & Condition
+              </a>
+            </li>
           </ul>
         </div>
 
-        <div className="flex flex-col space-y-2">
-          <h3 className="text-gray-700 font-bold">Contact Details</h3>
-          <ul className="text-gray-500">
-            <li><a href="tel:+651125658">+651 125 658</a></li>
-            <li><a href="mailto:isratech@outlook.com">isratech@outlook.com</a></li>
+        {/* Contact Details */}
+        <div className="col-span-1">
+          <h3 className="font-bold text-lg mb-2">Contact Details</h3>
+          <ul>
+            <li className="mb-2">+91 9999988888</li>
+            <li className="mb-2">
+              <a
+                href="mailto:isratech8@outlook.com"
+                className="hover:text-orange-800"
+              >
+                mapmytrip@yahoo.com           
+              </a>
+            </li>
           </ul>
         </div>
       </div>
