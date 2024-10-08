@@ -2,7 +2,7 @@ import React from 'react';
 
 const UserReviews = () => {
   return (
-    <div className="flex flex-col md:flex-row justify-between items-start p-8">
+    <div className="flex flex-col md:flex-row justify-between items-start p-28 mb-4 mt-4 py-4">
       <div className="md:w-1/2 pr-8">
         <h3 className="text-orange-500 text-sm uppercase mb-2">FROM OUR CLIENTS</h3>
         <h2 className="text-4xl font-bold mb-4">Real Travel History From Our Beloved Clients</h2>

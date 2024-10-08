@@ -3,26 +3,25 @@
 import React, { useState } from 'react';
 import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
 
-function SignUp(){
-    const [passwordError, setPasswordError] = useState('');
+function SignUp() {
+  const [passwordError, setPasswordError] = useState('');
 
-    const validatePassword = (password) => {
-      const regex = /^[a-z0-9]+$/;
-      if (!regex.test(password)) {
-        setPasswordError('Only letters: a-z and numbers: 0-9');
-      } else {
-        setPasswordError('');
-      }
-    };
+  const validatePassword = (password) => {
+    const regex = /^[a-z0-9]+$/;
+    if (!regex.test(password)) {
+      setPasswordError('Only letters: a-z and numbers: 0-9');
+    } else {
+      setPasswordError('');
+    }
+  };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="bg-white rounded-lg shadow-lg max-w-4xl w-full flex">
-        
-        <div className="w-1/2 p-10">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
+      <div className="bg-white rounded-lg shadow-lg max-w-4xl w-full flex" style={{ margin: '20px', maxHeight: '90vh' }}>
+        <div className="w-1/2 p-10 overflow-y-auto">
           <div className="mb-6 text-sm text-gray-600">
-            Don't have an account?{' '}
-            <a href="/auth/SignUp" className="text-orange-600 hover:underline">
+            Have an account?{' '}
+            <a href="/auth/SignIn" className="text-orange-600 hover:underline">
               Sign Up
             </a>
           </div>
@@ -94,14 +93,13 @@ function SignUp(){
           </form>
         </div>
 
-        
         <div className="w-1/2 rounded-r-lg flex items-center justify-center">
-          <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('/images/signin_image.jpg')` }}></div>
+          <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('/images/signup_image.jpg')`, borderRadius: '0 8px 8px 0' }}></div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default SignUp;
 

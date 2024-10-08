@@ -2,27 +2,7 @@
 "use client"
 import React from 'react';
 import { MapPin, CreditCard, Calendar, Search } from 'lucide-react';
-
-const SearchBar = () => (
-  <div className="flex space-x-4 mb-6">
-    <div className="flex-1 bg-red-50 rounded-full px-4 py-2 flex items-center">
-      <MapPin className="text-gray-400 mr-2" size={20} />
-      <input type="text" placeholder="Location" className="bg-transparent w-full outline-none" />
-    </div>
-    <div className="flex-1 bg-red-50 rounded-full px-4 py-2 flex items-center">
-      <CreditCard className="text-gray-400 mr-2" size={20} />
-      <input type="text" placeholder="Budget" className="bg-transparent w-full outline-none" />
-    </div>
-    <div className="flex-1 bg-red-50 rounded-full px-4 py-2 flex items-center">
-      <Calendar className="text-gray-400 mr-2" size={20} />
-      <input type="text" placeholder="Date" className="bg-transparent w-full outline-none" />
-    </div>
-    <button className="bg-orange-500 text-white rounded-full px-6 py-2 flex items-center">
-      <Search className="mr-2" size={20} />
-      Search
-    </button>
-  </div>
-);
+import SearchBar from '@/components/SearchBar';
 
 const CategoryTabs = () => {
   const categories = ['All', 'Recommended', 'Beach', 'Park', 'Nature', 'Mountain'];
@@ -74,7 +54,7 @@ const TravelSearch = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-8">
-      <SearchBar />
+      <SearchBar /><br/>
       <CategoryTabs />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {destinations.map((dest, index) => (
