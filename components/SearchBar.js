@@ -9,84 +9,109 @@ const SearchBar = () => {
   const [people, setPeople] = useState(1);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [activeCategory, setActiveCategory] = useState("all"); // Track selected category
+
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category);
+  };
 
   return (
     <div className="flex flex-col items-center w-full p-4">
       {/* Category Selection */}
       <div className="flex space-x-6 mb-6">
-        <div className="flex items-center space-x-2 cursor-pointer">
+        <div
+          className={`flex items-center space-x-2 cursor-pointer ${activeCategory === "all" ? "border-b-2 border-orange-500" : ""}`}
+          onClick={() => handleCategoryClick("all")}
+        >
           <FaHome />
           <span className="font-semibold">Search All</span>
         </div>
-        <div className="flex items-center space-x-2 cursor-pointer">
+        <div
+          className={`flex items-center space-x-2 cursor-pointer ${activeCategory === "hotels" ? "border-b-2 border-orange-500" : ""}`}
+          onClick={() => handleCategoryClick("hotels")}
+        >
           <FaHotel />
           <span className="font-semibold">Hotels</span>
         </div>
-        <div className="flex items-center space-x-2 cursor-pointer">
+        <div
+          className={`flex items-center space-x-2 cursor-pointer ${activeCategory === "activities" ? "border-b-2 border-orange-500" : ""}`}
+          onClick={() => handleCategoryClick("activities")}
+        >
           <MdLocalActivity />
           <span className="font-semibold">Things to Do</span>
         </div>
-        <div className="flex items-center space-x-2 cursor-pointer">
+        <div
+          className={`flex items-center space-x-2 cursor-pointer ${activeCategory === "restaurants" ? "border-b-2 border-orange-500" : ""}`}
+          onClick={() => handleCategoryClick("restaurants")}
+        >
           <FaUtensils />
           <span className="font-semibold">Restaurants</span>
         </div>
-        <div className="flex items-center space-x-2 cursor-pointer">
+        <div
+          className={`flex items-center space-x-2 cursor-pointer ${activeCategory === "flights" ? "border-b-2 border-orange-500" : ""}`}
+          onClick={() => handleCategoryClick("flights")}
+        >
           <FaPlane />
           <span className="font-semibold">Flights</span>
         </div>
-        <div className="flex items-center space-x-2 cursor-pointer">
+        <div
+          className={`flex items-center space-x-2 cursor-pointer ${activeCategory === "homes" ? "border-b-2 border-orange-500" : ""}`}
+          onClick={() => handleCategoryClick("homes")}
+        >
           <FaHouseUser />
           <span className="font-semibold">Holiday Homes</span>
         </div>
       </div>
 
-      {/* Additional Inputs */}
-      <div className="w-full max-w-4xl grid grid-cols-4 gap-4 mb-6">
-        <div className="relative">
-          <label className="text-sm text-gray-500 mb-1">Budget</label>
-          <input
-            type="number"
-            placeholder="Enter Budget"
-            value={budget}
-            onChange={(e) => setBudget(e.target.value)}
-            className="w-full px-4 py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-orange-500 outline-none transition-shadow"
-            min="0"
-          />
-        </div>
+      {/* Conditionally Render Inputs */}
+      {activeCategory === "all" && (
+        <div className="w-full max-w-4xl grid grid-cols-4 gap-4 mb-6">
+          <div className="relative">
+            <label className="text-sm text-gray-500 mb-1">Budget</label>
+            <input
+              type="number"
+              placeholder="Enter Budget"
+              value={budget}
+              onChange={(e) => setBudget(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-orange-500 outline-none transition-shadow"
+              min="0"
+            />
+          </div>
 
-        <div className="relative">
-          <label className="text-sm text-gray-500 mb-1">No. of People</label>
-          <input
-            type="number"
-            placeholder="Number of People"
-            value={people}
-            onChange={(e) => setPeople(e.target.value)}
-            className="w-full px-4 py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-orange-500 outline-none transition-shadow"
-            min="1"
-          />
-        </div>
+          <div className="relative">
+            <label className="text-sm text-gray-500 mb-1">No. of People</label>
+            <input
+              type="number"
+              placeholder="Number of People"
+              value={people}
+              onChange={(e) => setPeople(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-orange-500 outline-none transition-shadow"
+              min="1"
+            />
+          </div>
 
-        <div className="relative">
-          <label className="text-sm text-gray-500 mb-1">Start Date</label>
-          <input
-            type="date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            className="w-full px-4 py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-orange-500 outline-none transition-shadow"
-          />
-        </div>
+          <div className="relative">
+            <label className="text-sm text-gray-500 mb-1">Start Date</label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-orange-500 outline-none transition-shadow"
+            />
+          </div>
 
-        <div className="relative">
-          <label className="text-sm text-gray-500 mb-1">End Date</label>
-          <input
-            type="date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            className="w-full px-4 py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-orange-500 outline-none transition-shadow"
-            min={startDate} // End date must be after start date
-          />
+          <div className="relative">
+            <label className="text-sm text-gray-500 mb-1">End Date</label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-orange-500 outline-none transition-shadow"
+              min={startDate} // End date must be after start date
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Search Bar */}
       <div className="flex items-center w-full max-w-2xl">

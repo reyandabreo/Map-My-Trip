@@ -1,20 +1,22 @@
+"use client";
+import React, { useState } from "react";
+import { MapPin } from "lucide-react";
+import SearchBar from "@/components/SearchBar";
+import Link from "next/link";
 
-"use client"
-import React from 'react';
-import { MapPin, CreditCard, Calendar, Search } from 'lucide-react';
-import SearchBar from '@/components/SearchBar';
+const CategoryTabs = ({ activeCategory, setActiveCategory }) => {
+  const categories = ["All", "Recommended", "Beach", "Park", "Nature", "Mountain"];
 
-const CategoryTabs = () => {
-  const categories = ['All', 'Recommended', 'Beach', 'Park', 'Nature', 'Mountain'];
   return (
     <div className="flex space-x-4 mb-6">
       {categories.map((category, index) => (
         <button
           key={index}
+          onClick={() => setActiveCategory(category)} // Change active category on click
           className={`px-4 py-2 rounded-full ${
-            category === 'All' || category === 'Mountain'
-              ? 'border border-red-300 text-red-500'
-              : 'text-gray-500'
+            activeCategory === category
+              ? "border border-red-300 text-red-500"
+              : "text-gray-500"
           }`}
         >
           {category}
@@ -24,7 +26,13 @@ const CategoryTabs = () => {
   );
 };
 
+// Helper function to create a URL-friendly slug
+const slugify = (name) => {
+  return name.toLowerCase().replace(/\s+/g, '-');
+};
+
 const DestinationCard = ({ image, name, location, rating }) => (
+  <Link href={`/destination/${slugify(name)}`} passHref>
   <div className="relative rounded-lg overflow-hidden">
     <img src={image} alt={name} className="w-full h-48 object-cover" />
     <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
@@ -38,26 +46,43 @@ const DestinationCard = ({ image, name, location, rating }) => (
       </div>
     </div>
   </div>
+  </Link>
 );
 
 const TravelSearch = () => {
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  // All destinations categorized
   const destinations = [
-    { image: "/images/seychelles.jpg", name: "Seychelles Island", location: "Indian Ocean", rating: "4.7" },
-    { image: "/images/bora-bora.jpg", name: "Bora Bora Island", location: "Polynesia", rating: "4.3" },
-    { image: "/images/maldives.jpg", name: "Maldives Island", location: "Indian Ocean", rating: "4.9" },
-    { image: "/images/santorini.jpg", name: "Santorini Island", location: "Greece", rating: "4.5" },
-    { image: "/images/bali.jpg", name: "Bali Island", location: "Indonesia", rating: "4.9" },
-    { image: "/images/maui.jpg", name: "Maui Island", location: "Hawaii, USA", rating: "4.9" },
-    { image: "/images/capri.jpg", name: "Capri Island", location: "Italy", rating: "4.7" },
-    { image: "/images/fiji.jpg", name: "Fiji Island", location: "South Pacific", rating: "4.4" },
+    { image: "/images/seychelles.jpg", name: "Seychelles Island", location: "Indian Ocean", rating: "4.7", category: "Beach" },
+    { image: "/images/bora-bora.jpg", name: "Bora Bora Island", location: "Polynesia", rating: "4.3", category: "Beach" },
+    { image: "/images/maldives.jpg", name: "Maldives Island", location: "Indian Ocean", rating: "4.9", category: "Beach" },
+    { image: "/images/santorini.jpg", name: "Santorini Island", location: "Greece", rating: "4.5", category: "Mountain" },
+    { image: "/images/bali.jpg", name: "Bali Island", location: "Indonesia", rating: "4.9", category: "Nature" },
+    { image: "/images/maui.jpg", name: "Maui Island", location: "Hawaii, USA", rating: "4.9", category: "Beach" },
+    { image: "/images/capri.jpg", name: "Capri Island", location: "Italy", rating: "4.7", category: "Mountain" },
+    { image: "/images/fiji.jpg", name: "Fiji Island", location: "South Pacific", rating: "4.4", category: "Beach" },
+    { image: "/images/yosemite.jpg", name: "Yosemite", location: "California, USA", rating: "4.8", category: "Park" },
+    { image: "/images/banff.jpg", name: "Banff National Park", location: "Canada", rating: "4.9", category: "Nature" },
+    { image: "/images/everest.jpg", name: "Mount Everest", location: "Nepal", rating: "4.7", category: "Mountain" },
+    { image: "/images/grand-canyon.jpg", name: "Grand Canyon", location: "USA", rating: "4.9", category: "Nature" },
+    { image: "/images/kruger.jpg", name: "Kruger National Park", location: "South Africa", rating: "4.6", category: "Park" },
+    { image: "/images/niagara.jpg", name: "Niagara Falls", location: "Canada", rating: "4.8", category: "Nature" },
   ];
+
+  // Filter destinations based on the active category
+  const filteredDestinations =
+    activeCategory === "All"
+      ? destinations
+      : destinations.filter((dest) => dest.category === activeCategory);
 
   return (
     <div className="max-w-6xl mx-auto p-8">
-      <SearchBar /><br/>
-      <CategoryTabs />
+      <SearchBar />
+      <br />
+      <CategoryTabs activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {destinations.map((dest, index) => (
+        {filteredDestinations.map((dest, index) => (
           <DestinationCard key={index} {...dest} />
         ))}
       </div>
@@ -66,4 +91,3 @@ const TravelSearch = () => {
 };
 
 export default TravelSearch;
-
