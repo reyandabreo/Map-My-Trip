@@ -8,7 +8,7 @@ const Explore = () => {
       <div className="relative">
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-75"></div>
         <img 
-          src="/images/landing_page.jpg" 
+          src="/images/explore.jpg" 
           alt="Explore Destinations" 
           className="w-full h-96 object-cover" 
         />
