@@ -1,44 +1,63 @@
-// components/Hero.js
 "use client"
 import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { FaUserCircle } from 'react-icons/fa';
 
-const Header = ({ isLoggedIn, handleLogout, router }) => (
-  <header className="absolute top-0 left-0 right-0 z-10 flex justify-between items-center p-6">
-    <div className="w-40 h-12 p-2 rounded-lg flex justify-center items-center">
-      <img src='/logo/logo.png' className="object-cover w-full h-full" alt="Logo" />
-    </div>
-    <nav className="hidden md:flex space-x-6">
-      <a href="/navitems/Explore" className="text-white hover:text-orange-500">Explore</a>
-      <a href="/navitems/Trips" className="text-white hover:text-orange-500">Trips</a>
-      <a href="/navitems/UserReviews" className="text-white hover:text-orange-500">Reviews</a>
-      <a href="#" className="text-white hover:text-orange-500">Gallery</a>
-    </nav>
-    {isLoggedIn ? (
-      <div className="relative">
-        <FaUserCircle size={32} className="text-white cursor-pointer" />
-        <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-lg shadow-lg">
-          <button 
-            className="block w-full px-4 py-2 text-left hover:bg-gray-100" 
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        </div>
+const Header = ({ isLoggedIn, handleLogout, router }) => {
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  return (
+    <header className="absolute top-0 left-0 right-0 z-10 flex justify-between items-center p-6">
+      <div className="w-40 h-12 p-2 rounded-lg flex justify-center items-center">
+        <img src='/logo/logo.png' className="object-cover w-full h-full" alt="Logo" />
       </div>
-    ) : (
-      <button
-        type='button'
-        className="bg-orange-500 text-white px-4 py-2 rounded-full"
-        onClick={() => router.push('/user-auth/SignUp')}
-      >
-        Sign Up
-      </button>
-    )}
-  </header>
-);
+      <nav className="hidden md:flex space-x-6">
+        <a href="/navitems/Explore" className="text-white hover:text-orange-500">Explore</a>
+        <a href="/navitems/Trips" className="text-white hover:text-orange-500">Trips</a>
+        <a href="/navitems/UserReviews" className="text-white hover:text-orange-500">Reviews</a>
+        <a href="#" className="text-white hover:text-orange-500">Gallery</a>
+      </nav>
+      {isLoggedIn ? (
+        <div className="relative">
+          <img
+            src="/images/anime-avatar.jpg"
+            alt="User Avatar"
+            className="w-10 h-10 rounded-full cursor-pointer"
+            onClick={toggleDropdown}
+          />
+          {showDropdown && (
+            <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-lg shadow-lg ">
+              <button
+                className="rounded-lg w-full px-4 py-2 text-left hover:bg-gray-100"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+              <button
+                className="rounded-lg w-full px-4 py-2 text-left hover:bg-gray-100"
+                onClick={() => router.push('/settings')}
+              >
+                Settings
+              </button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <button
+          type='button'
+          className="bg-orange-500 text-white px-4 py-2 rounded-full"
+          onClick={() => router.push('/user-auth/SignUp')}
+        >
+          Sign Up
+        </button>
+      )}
+    </header>
+  );
+};
 
 const HeroSection = ({ router }) => (
   <div className="relative h-screen">
@@ -47,7 +66,7 @@ const HeroSection = ({ router }) => (
     <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
       <h1 className="text-5xl font-bold mb-4">Unlock Your Travel Dreams With MapMyTrip!</h1>
       <p className="text-xl mb-8">Discover the world's most adventurous nature, life is so short for a trip.</p>
-      <button 
+      <button
         type='button'
         className="bg-orange-500 text-white px-6 py-3 rounded-full flex items-center"
         onClick={() => router.push('/user-auth/SignIn')}
@@ -79,7 +98,6 @@ const TravelHomepage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Assume you have a token or session check
     const token = localStorage.getItem('token');
     if (token) {
       setIsLoggedIn(true);
@@ -87,7 +105,6 @@ const TravelHomepage = () => {
   }, []);
 
   const handleLogout = () => {
-    // Clear token or session
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     router.push('/');
