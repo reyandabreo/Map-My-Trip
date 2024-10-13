@@ -1,32 +1,64 @@
-
-"use client"
-import React, { useState } from 'react';
-import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
+"use client";
+import React, { useState } from "react";
+import { FaFacebookF, FaGoogle, FaApple } from "react-icons/fa";
+import { useRouter } from 'next/navigation'; // To handle redirection
 
 function SignUp() {
-  const [passwordError, setPasswordError] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const router = useRouter(); // Initialize router for redirecting
 
   const validatePassword = (password) => {
     const regex = /^[a-z0-9]+$/;
     if (!regex.test(password)) {
-      setPasswordError('Only letters: a-z and numbers: 0-9');
+      setPasswordError("Only letters: a-z and numbers: 0-9");
     } else {
-      setPasswordError('');
+      setPasswordError("");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+
+    if (!name || !email || !password) {
+      alert("Please fill out all fields");
+      return;
+    }
+
+    if (passwordError) {
+      alert("Please fix the errors in the form.");
+      return;
+    }
+
+    const res = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }), // Submit name, email, and password
+    });
+
+    const data = await res.json();
+    if (data.message === "User created successfully") {
+      // Redirect to login page after successful signup
+      router.push("/user-auth/SignIn");
+    } else {
+      alert(data.message); // Handle any error message from the server
     }
   };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-      <div className="bg-white rounded-lg shadow-lg max-w-4xl w-full flex" style={{ margin: '20px', maxHeight: '90vh' }}>
+      <div className="bg-white rounded-lg shadow-lg max-w-4xl w-full flex" style={{ margin: "20px", maxHeight: "90vh" }}>
         <div className="w-1/2 p-10 overflow-y-auto">
           <div className="mb-6 text-sm text-gray-600">
-            Have an account?{' '}
-            <a href="/auth/SignIn" className="text-orange-600 hover:underline">
+            Have an account?{" "}
+            <a href="/user-auth/SignIn" className="text-orange-600 hover:underline">
               Sign In
             </a>
           </div>
           <h2 className="text-3xl font-bold mb-8">Sign Up</h2>
-          <form>
+          <form onSubmit={handleSubmit}> {/* Attach handleSubmit to form */}
             <div className="mb-6">
               <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
                 Name
@@ -36,6 +68,8 @@ function SignUp() {
                 id="name"
                 className="w-full p-3 border border-gray-300 rounded-lg"
                 placeholder="John Doe"
+                value={name} // Bind input to state
+                onChange={(e) => setName(e.target.value)} // Update state on change
               />
             </div>
 
@@ -48,6 +82,8 @@ function SignUp() {
                 id="email"
                 className="w-full p-3 border border-gray-300 rounded-lg"
                 placeholder="jdoe125@mail.com"
+                value={email} // Bind input to state
+                onChange={(e) => setEmail(e.target.value)} // Update state on change
               />
             </div>
 
@@ -60,7 +96,11 @@ function SignUp() {
                 id="password"
                 className={`w-full p-3 border ${passwordError ? 'border-red-500' : 'border-gray-300'} rounded-lg`}
                 placeholder="Enter your password"
-                onChange={(e) => validatePassword(e.target.value)}
+                value={password} // Bind input to state
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  validatePassword(e.target.value);
+                }} // Update state on change
               />
               {passwordError && (
                 <p className="text-red-500 text-sm mt-2">
@@ -72,11 +112,11 @@ function SignUp() {
             <div className="flex items-center mb-6">
               <input type="checkbox" id="terms" className="mr-2" />
               <label htmlFor="terms" className="text-sm text-gray-600">
-                I’ve read and agree with{' '}
+                I’ve read and agree with{" "}
                 <a href="#" className="text-orange-600 hover:underline">
                   Terms of Service
-                </a>{' '}
-                and our{' '}
+                </a>{" "}
+                and our{" "}
                 <a href="#" className="text-orange-600 hover:underline">
                   Privacy Policy
                 </a>
@@ -106,7 +146,7 @@ function SignUp() {
         </div>
 
         <div className="w-1/2 rounded-r-lg flex items-center justify-center">
-          <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('/images/signup_image.jpg')`, borderRadius: '0 8px 8px 0' }}></div>
+          <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('/images/signup_image.jpg')`, borderRadius: "0 8px 8px 0" }}></div>
         </div>
       </div>
     </div>
@@ -114,4 +154,3 @@ function SignUp() {
 }
 
 export default SignUp;
-

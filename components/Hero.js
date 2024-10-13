@@ -1,10 +1,11 @@
 // components/Hero.js
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { FaUserCircle } from 'react-icons/fa';
 
-const Header = ({ router }) => (
+const Header = ({ isLoggedIn, handleLogout, router }) => (
   <header className="absolute top-0 left-0 right-0 z-10 flex justify-between items-center p-6">
     <div className="w-40 h-12 p-2 rounded-lg flex justify-center items-center">
       <img src='/logo/logo.png' className="object-cover w-full h-full" alt="Logo" />
@@ -15,17 +16,31 @@ const Header = ({ router }) => (
       <a href="/navitems/UserReviews" className="text-white hover:text-orange-500">Reviews</a>
       <a href="#" className="text-white hover:text-orange-500">Gallery</a>
     </nav>
-    <button
-      type='button'
-      className="bg-orange-500 text-white px-4 py-2 rounded-full"
-      onClick={() => router.push('/auth/SignUp')}
-    >
-      Sign Up
-    </button>
+    {isLoggedIn ? (
+      <div className="relative">
+        <FaUserCircle size={32} className="text-white cursor-pointer" />
+        <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-lg shadow-lg">
+          <button 
+            className="block w-full px-4 py-2 text-left hover:bg-gray-100" 
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    ) : (
+      <button
+        type='button'
+        className="bg-orange-500 text-white px-4 py-2 rounded-full"
+        onClick={() => router.push('/user-auth/SignUp')}
+      >
+        Sign Up
+      </button>
+    )}
   </header>
 );
 
-const HeroSection = ({router}) => (
+const HeroSection = ({ router }) => (
   <div className="relative h-screen">
     <img src="/images/landing_page.jpg" alt="Hot air balloons over snowy landscape" className="w-full h-full object-cover" />
     <div className="absolute inset-0 bg-black bg-opacity-30"></div>
@@ -33,9 +48,9 @@ const HeroSection = ({router}) => (
       <h1 className="text-5xl font-bold mb-4">Unlock Your Travel Dreams With MapMyTrip!</h1>
       <p className="text-xl mb-8">Discover the world's most adventurous nature, life is so short for a trip.</p>
       <button 
-      type='button'
-      className="bg-orange-500 text-white px-6 py-3 rounded-full flex items-center"
-      onClick={() => router.push('/auth/SignIn')}
+        type='button'
+        className="bg-orange-500 text-white px-6 py-3 rounded-full flex items-center"
+        onClick={() => router.push('/user-auth/SignIn')}
       >
         GET STARTED <ArrowRight className="ml-2" size={20} />
       </button>
@@ -61,10 +76,26 @@ const PopularPlaces = () => (
 
 const TravelHomepage = () => {
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Assume you have a token or session check
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    // Clear token or session
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    router.push('/');
+  };
 
   return (
     <div className="relative">
-      <Header router={router} />
+      <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} router={router} />
       <HeroSection router={router} />
       <PopularPlaces />
     </div>
