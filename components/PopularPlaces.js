@@ -1,7 +1,6 @@
-
-// components/PopularPlaces.js
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const PopularPlaces = () => {
   const places = [
@@ -27,25 +26,30 @@ const PopularPlaces = () => {
     },
   ];
 
+  // Helper function to slugify names for URLs
+  const slugify = (name) => {
+    return name.toLowerCase().replace(/\s+/g, '-');
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-2xl font-bold mb-6">Popular Places</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {places.map((place) => (
-          <div key={place.id} className="relative h-48 overflow-hidden rounded-lg group">
-            <Image
-              src={place.image}
-              layout="fill"
-              objectFit="cover"
-              alt={`Popular Place ${place.id}`}
-              className="group-hover:opacity-50"
-            />
-            <div
-              className="absolute bottom-0 left-0 p-2 text-lg text-black opacity-0 group-hover:opacity-100 transition-all rounded"
-            >
-              {place.name}
+          <Link key={place.id} href={`/popularplaces/${slugify(place.name)}`} passHref>
+            <div className="relative h-48 overflow-hidden rounded-lg group cursor-pointer">
+              <Image
+                src={place.image}
+                alt={`Popular Place ${place.id}`}
+                fill
+                style={{ objectFit: 'cover' }}
+                className="group-hover:opacity-50"
+              />
+              <div className="absolute bottom-0 left-0 p-2 text-lg text-white opacity-0 group-hover:opacity-100 transition-all">
+                {place.name}
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
