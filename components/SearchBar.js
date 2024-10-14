@@ -3,8 +3,19 @@
 import React, { useState } from "react";
 import { FaHome, FaHotel, FaUtensils, FaPlane, FaHouseUser } from "react-icons/fa";
 import { MdLocalActivity } from "react-icons/md";
+import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api'
+import { useRef } from "react";
 
 const SearchBar = () => {
+  const inputref = useRef(null);
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: 'YOUR_API_KEY',
+    libraries:['places'],
+  })
+
+  console.log(isLoaded);
+
   const [budget, setBudget] = useState("");
   const [people, setPeople] = useState(1);
   const [startDate, setStartDate] = useState("");
@@ -14,6 +25,11 @@ const SearchBar = () => {
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
   };
+
+  const handleOnPlacesChange = () =>{
+    let address = inputref.current.getPlaces();
+    console.log(address);
+  }
 
   return (
     <div className="flex flex-col items-center w-full p-4">
@@ -114,6 +130,11 @@ const SearchBar = () => {
       )}
 
       {/* Search Bar */}
+      {isLoaded &&
+      <StandaloneSearchBox
+        onLoad={(ref)=>inputref.current = ref}
+        onPlacesChanged={handleOnPlacesChange}
+      >
       <div className="flex items-center w-full max-w-2xl">
         <input
           type="text"
@@ -124,6 +145,8 @@ const SearchBar = () => {
           Search
         </button>
       </div>
+      </StandaloneSearchBox>
+      }
     </div>
   );
 };
