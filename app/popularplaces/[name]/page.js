@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 // Function to fetch destination details (could come from an API or database)
