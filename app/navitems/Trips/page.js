@@ -62,7 +62,7 @@ const Trips = () => {
           </Link>
 
           {/* Create with AI Card */}
-          <Link href="/navitems/Trips/CreateWithAI">
+          <Link href="/navitems/Trips/CreateWithAi">
             <div className="bg-white shadow-md hover:shadow-lg transition transform hover:scale-105 rounded-lg p-8 flex flex-col items-center text-center">
               <Bot className="text-green-500 w-16 h-16 mb-4" />
               <h3 className="text-2xl font-semibold text-gray-800 mb-2">Create with AI</h3>
