@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
@@ -21,7 +22,6 @@ const Header = ({ isLoggedIn, handleLogout, router }) => {
         <a href="/navitems/Explore" className="text-white hover:text-orange-500">Explore</a>
         <a href="/navitems/Trips" className="text-white hover:text-orange-500">Trips</a>
         <a href="/navitems/UserReviews" className="text-white hover:text-orange-500">Reviews</a>
-        <a href="#" className="text-white hover:text-orange-500">Gallery</a>
       </nav>
       {isLoggedIn ? (
         <div className="relative">
