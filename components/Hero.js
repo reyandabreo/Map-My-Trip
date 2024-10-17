@@ -4,6 +4,43 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { AiOutlineArrowRight as ArrowRight } from 'react-icons/ai'; // Import the ArrowRight icon
 
+// Helper function to slugify names for URLs
+const slugify = (name) => {
+  return name.toLowerCase().replace(/\s+/g, '-');
+};
+
+// PopularPlaces component
+const PopularPlaces = () => {
+  const places = [
+    { id: 1, name: 'Kyoto', image: 'place_1.jpg' },
+    { id: 2, name: 'Paris', image: 'place_2.jpg' },
+    { id: 3, name: 'Tokyo', image: 'place_3.jpg' },
+    { id: 4, name: 'Bali', image: 'place_4.jpg' },
+  ];
+
+  return (
+    <div className="absolute bottom-8 left-0 right-0">
+      <h2 className="text-white text-xl md:text-2xl mb-4 text-center">Explore</h2>
+      <div className="flex flex-wrap justify-center space-x-2 md:space-x-4">
+        {places.map((place) => (
+          <Link key={place.id} href={`/popularplaces/${slugify(place.name)}`} passHref>
+            <div className="w-40 h-20 md:w-48 md:h-24 bg-white rounded-lg overflow-hidden group relative">
+              <img
+                src={`/images/${place.image}`}
+                alt={`Popular place ${place.id}`}
+                className="w-full h-full object-cover group-hover:opacity-50"
+              />
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 p-2 text-black text-sm md:text-base opacity-0 group-hover:opacity-100 transition-all">
+                {place.name}
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 // Header component with stylish animated hamburger menu
 const Header = ({ isLoggedIn, handleLogout, router }) => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -123,6 +160,8 @@ const HeroSection = ({ router }) => (
       >
         GET STARTED <ArrowRight className="ml-2" size={20} />
       </button>
+      {/* Add the PopularPlaces component here */}
+      <PopularPlaces />
     </div>
   </div>
 );
