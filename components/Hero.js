@@ -21,7 +21,7 @@ const PopularPlaces = () => {
   return (
     <div className="absolute bottom-8 left-0 right-0">
       <h2 className="text-white text-xl md:text-2xl mb-4 text-center">Explore</h2>
-      <div className="flex flex-wrap justify-center space-x-2 md:space-x-4">
+      <div className="flex flex-wrap justify-center md:space-x-4 gap-4">
         {places.map((place) => (
           <Link key={place.id} href={`/popularplaces/${slugify(place.name)}`} passHref>
             <div className="w-40 h-20 md:w-48 md:h-24 bg-white rounded-lg overflow-hidden group relative">
