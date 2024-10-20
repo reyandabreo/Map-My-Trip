@@ -162,7 +162,7 @@ const SearchBar = () => {
       )}
 
       {/* Search Bar */}
-      <div className="flex items-center w-full max-w-xl relative md:w-3/4 px-4 sm:px-2">
+      <div className="flex items-center max-w-xl relative md:w-3/4 px-4 sm:px-2">
         <input
           ref={inputRef}
           type="text"
