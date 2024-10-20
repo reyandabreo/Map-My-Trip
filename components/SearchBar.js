@@ -52,11 +52,12 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full p-4">
+    <div className="flex flex-col items-center w-full p-4 space-y-4">
+      {/* Category Toggle Section */}
       <div className="flex flex-wrap justify-center space-x-4 md:space-x-6 mb-4 md:mb-6">
         <div
-          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer ${
-            activeCategory === "all" ? "border-b-2 border-orange-500" : ""
+          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer transition-colors ${
+            activeCategory === "all" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-700"
           }`}
           onClick={() => handleCategoryClick("all")}
         >
@@ -64,8 +65,8 @@ const SearchBar = () => {
           <span className="text-sm md:text-base font-semibold">Search All</span>
         </div>
         <div
-          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer ${
-            activeCategory === "hotels" ? "border-b-2 border-orange-500" : ""
+          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer transition-colors ${
+            activeCategory === "hotels" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-700"
           }`}
           onClick={() => handleCategoryClick("hotels")}
         >
@@ -73,8 +74,8 @@ const SearchBar = () => {
           <span className="text-sm md:text-base font-semibold">Hotels</span>
         </div>
         <div
-          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer ${
-            activeCategory === "activities" ? "border-b-2 border-orange-500" : ""
+          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer transition-colors ${
+            activeCategory === "activities" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-700"
           }`}
           onClick={() => handleCategoryClick("activities")}
         >
@@ -82,8 +83,8 @@ const SearchBar = () => {
           <span className="text-sm md:text-base font-semibold">Things to Do</span>
         </div>
         <div
-          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer ${
-            activeCategory === "restaurants" ? "border-b-2 border-orange-500" : ""
+          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer transition-colors ${
+            activeCategory === "restaurants" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-700"
           }`}
           onClick={() => handleCategoryClick("restaurants")}
         >
@@ -91,8 +92,8 @@ const SearchBar = () => {
           <span className="text-sm md:text-base font-semibold">Restaurants</span>
         </div>
         <div
-          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer ${
-            activeCategory === "flights" ? "border-b-2 border-orange-500" : ""
+          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer transition-colors ${
+            activeCategory === "flights" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-700"
           }`}
           onClick={() => handleCategoryClick("flights")}
         >
@@ -100,8 +101,8 @@ const SearchBar = () => {
           <span className="text-sm md:text-base font-semibold">Flights</span>
         </div>
         <div
-          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer ${
-            activeCategory === "homes" ? "border-b-2 border-orange-500" : ""
+          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer transition-colors ${
+            activeCategory === "homes" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-700"
           }`}
           onClick={() => handleCategoryClick("homes")}
         >
@@ -110,6 +111,7 @@ const SearchBar = () => {
         </div>
       </div>
 
+      {/* Input Fields */}
       {activeCategory === "all" && (
         <div className="w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-6">
           <div className="relative">
@@ -159,26 +161,28 @@ const SearchBar = () => {
         </div>
       )}
 
-      <div className="flex items-center w-full max-w-xl relative">
+      {/* Search Bar */}
+      <div className="flex items-center w-full max-w-xl relative md:w-3/4 px-4 sm:px-2">
         <input
           ref={inputRef}
           type="text"
           placeholder="Places to go, things to do, hotels..."
           value={inputValue}
           onChange={handleInputChange}
-          className="flex-grow px-4 py-3 md:px-6 md:py-3 bg-gray-100 border border-gray-300 rounded-l-full text-gray-800 focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+          className="flex-grow px-4 py-3 sm:px-2 md:px-6 bg-gray-100 border border-gray-300 rounded-l-full text-gray-800 focus:ring-2 focus:ring-orange-500 outline-none transition-all"
         />
-        <button className="bg-orange-500 text-white px-4 py-3 md:px-6 md:py-3 rounded-r-full hover:bg-orange-600 transition-all">
+        <button className="bg-orange-500 text-white px-4 py-3 sm:px-2 md:px-6 rounded-r-full hover:bg-orange-600 transition-all">
           Search
         </button>
 
+        {/* Suggestions */}
         {suggestions.length > 0 && (
           <ul className="absolute top-12 left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
             {suggestions.map((suggestion, index) => (
               <li
                 key={index}
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                 onClick={() => handleSuggestionClick(suggestion)}
+                className="px-4 py-2 cursor-pointer hover:bg-gray-100"
               >
                 {suggestion.description}
               </li>
