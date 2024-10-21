@@ -95,6 +95,7 @@ const Header = ({ isLoggedIn, handleLogout, router }) => {
         } absolute top-16 left-0 right-0 bg-white bg-opacity-40 backdrop-blur-lg text-white p-6 flex flex-col space-y-4 md:hidden transition-all duration-300 ease-in-out transform ${
           isMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-5 opacity-0'
         }`}
+        
       >
         <Link href="/navitems/Explore" className="hover:text-orange-500">Explore</Link>
         <Link href="/navitems/Trips" className="hover:text-orange-500">Trips</Link>
