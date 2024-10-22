@@ -21,7 +21,7 @@ const PopularPlaces = () => {
   return (
     <div className="absolute bottom-8 left-0 right-0">
       <h2 className="text-white text-xl md:text-2xl mb-4 text-center">Explore</h2>
-      <div className="flex flex-wrap justify-center space-x-2 md:space-x-4">
+      <div className="flex flex-wrap justify-center md:space-x-4 gap-4">
         {places.map((place) => (
           <Link key={place.id} href={`/popularplaces/${slugify(place.name)}`} passHref>
             <div className="w-40 h-20 md:w-48 md:h-24 bg-white rounded-lg overflow-hidden group relative">
@@ -95,6 +95,7 @@ const Header = ({ isLoggedIn, handleLogout, router }) => {
         } absolute top-16 left-0 right-0 bg-white bg-opacity-40 backdrop-blur-lg text-white p-6 flex flex-col space-y-4 md:hidden transition-all duration-300 ease-in-out transform ${
           isMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-5 opacity-0'
         }`}
+        
       >
         <Link href="/navitems/Explore" className="hover:text-orange-500">Explore</Link>
         <Link href="/navitems/Trips" className="hover:text-orange-500">Trips</Link>
