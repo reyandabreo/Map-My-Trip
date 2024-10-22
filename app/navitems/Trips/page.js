@@ -1,10 +1,22 @@
 "use client"
 import Link from 'next/link';
-import { ClipboardList, CalendarCheck, Bot } from 'lucide-react'; // Icons for View Existing Plan, Make My Plan, Create with AI
+import { ClipboardList, CalendarCheck, Bot, ArrowLeft } from 'lucide-react'; // Icons for View Existing Plan, Make My Plan, Create with AI, and Back Button
+import { useRouter } from 'next/navigation'; // For the back button
 
 const Trips = () => {
+  const router = useRouter();
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Back Button */}
+      <button
+        onClick={() => router.back()}
+        className="absolute top-4 left-4 flex items-center text-white mb-4 hover:text-orange-900 z-50"
+      >
+        <ArrowLeft className="w-6 h-6 mr-2" />
+        <span className="text-lg font-medium">Back</span>
+      </button>
+
       {/* Hero Section */}
       <div className="relative">
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-75"></div>

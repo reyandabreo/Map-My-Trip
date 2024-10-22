@@ -1,18 +1,32 @@
+"use client"; // Add this line to indicate it's a Client Component
+
 import Link from 'next/link';
-import { MapPin, BookOpen } from 'lucide-react'; // Icons for NewSpots and TravelStories
+import { MapPin, BookOpen, ArrowLeft } from 'lucide-react'; // Icons for NewSpots, TravelStories, and Back button
+import { useRouter } from 'next/navigation'; // Updated import
 
 const Explore = () => {
+  const router = useRouter();
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Back Button */}
+      <button 
+        onClick={() => router.back()} 
+        className="absolute top-4 left-4 flex items-center text-white mb-4 hover:text-orange-900 z-50"
+      >
+        <ArrowLeft className="w-6 h-6 mr-2" />
+        <span className="text-lg font-medium">Back</span>
+      </button>
+
       {/* Hero Section */}
       <div className="relative">
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-75"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-75 z-10"></div>
         <img 
           src="/images/explore.jpg" 
           alt="Explore Destinations" 
-          className="w-full h-96 object-cover" 
+          className="w-full h-96 object-cover z-0" 
         />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-20">
           <h1 className="text-5xl font-bold text-white mb-4">
             Start Your Journey
           </h1>
@@ -71,7 +85,7 @@ const Explore = () => {
           Discover the best spots and share your travel stories to help others create unforgettable memories.
         </p>
         <div>
-          <a  href="/navitems/Explore/NewSpots" className="inline-block px-8 py-4 bg-white text-teal-500 rounded-lg font-semibold hover:bg-gray-100 transition">
+          <a href="/navitems/Explore/NewSpots" className="inline-block px-8 py-4 bg-white text-teal-500 rounded-lg font-semibold hover:bg-gray-100 transition">
             Explore Destinations
           </a>
         </div>
@@ -81,4 +95,3 @@ const Explore = () => {
 };
 
 export default Explore;
-
