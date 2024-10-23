@@ -41,17 +41,17 @@ const Footer = () => {
           <h3 className="font-bold text-lg mb-2">Information</h3>
           <ul>
             <li className="mb-2">
-              <a href="#" className="hover:text-orange-800">
+              <a href="/navitems/Explore" className="hover:text-orange-800">
                 Explore
               </a>
             </li>
             <li className="mb-2">
-              <a href="#" className="hover:text-orange-800">
+              <a href="/navitems/Trips" className="hover:text-orange-800">
                 Trips
               </a>
             </li>
             <li className="mb-2">
-              <a href="#" className="hover:text-orange-800">
+              <a href="/navitems/UserReviews" className="hover:text-orange-800">
                 Reviews
               </a>
             </li>
