@@ -1,7 +1,7 @@
 // app/navitems/Explore/NewSpots/page.js
-"use client"; // Ensure this is a client component
+"use client"; 
 import React from "react";
-import { useRouter } from "next/navigation"; // Use next/navigation for App Router
+import { useRouter } from "next/navigation";
 import { MapPin } from "lucide-react";
 import Link from "next/link";
 
@@ -36,7 +36,7 @@ const NewSpots = () => {
       id: 1,
       name: "Bora Bora, French Polynesia",
       description: "A stunning island known for its crystal-clear waters, luxury resorts, and coral reefs. Perfect for honeymooners and beach lovers.",
-      image: "/images/bora_bora.jpg",
+      image: "/images/bora-bora.jpg",
       location: "Polynesia",
       rating: "4.8",
     },
@@ -44,7 +44,7 @@ const NewSpots = () => {
       id: 2,
       name: "Kyoto, Japan",
       description: "A cultural hub with breathtaking temples, gardens, and the beautiful Arashiyama Bamboo Forest. A must-visit for history enthusiasts.",
-      image: "/images/kyoto.jpg",
+      image: "/images/place_3.jpg",
       location: "Japan",
       rating: "4.7",
     },
@@ -68,7 +68,7 @@ const NewSpots = () => {
       id: 5,
       name: "Paris, France",
       description: "The City of Light, known for its art, fashion, and iconic landmarks like the Eiffel Tower and Louvre Museum.",
-      image: "/images/paris.jpg",
+      image: "/images/place_2.jpg",
       location: "France",
       rating: "4.7",
     },
@@ -76,7 +76,7 @@ const NewSpots = () => {
       id: 6,
       name: "Sydney, Australia",
       description: "Home to the Sydney Opera House and beautiful beaches, it's a vibrant city with a rich cultural scene.",
-      image: "/images/sydney.jpg",
+      image: "/images/place_5.jpg",
       location: "Australia",
       rating: "4.6",
     },
@@ -84,7 +84,7 @@ const NewSpots = () => {
       id: 7,
       name: "Rome, Italy",
       description: "The Eternal City, famous for its nearly 3,000 years of globally influential art, architecture, and culture.",
-      image: "/images/rome.jpg",
+      image: "/images/place_7.jpg",
       location: "Italy",
       rating: "4.8",
     },
@@ -92,7 +92,7 @@ const NewSpots = () => {
       id: 8,
       name: "New York City, USA",
       description: "The Big Apple, known for its iconic skyline, Central Park, and a melting pot of cultures.",
-      image: "/images/new_york.jpg",
+      image: "/images/new-york.jpg",
       location: "USA",
       rating: "4.9",
     },
@@ -100,7 +100,7 @@ const NewSpots = () => {
       id: 9,
       name: "Barcelona, Spain",
       description: "Famous for its unique architecture by Antoni Gaudí, vibrant culture, and beautiful beaches.",
-      image: "/images/barcelona.jpg",
+      image: "/images/seychelles.jpg",
       location: "Spain",
       rating: "4.7",
     },
@@ -108,7 +108,7 @@ const NewSpots = () => {
       id: 10,
       name: "Iceland",
       description: "Known for its stunning natural beauty, including geysers, hot springs, and the Northern Lights.",
-      image: "/images/iceland.jpg",
+      image: "/images/fiji.jpg",
       location: "Iceland",
       rating: "4.9",
     },
@@ -116,7 +116,7 @@ const NewSpots = () => {
       id: 11,
       name: "Cape Town, South Africa",
       description: "Famous for its stunning coastline, Table Mountain, and diverse cultural heritage.",
-      image: "/images/cape_town.jpg",
+      image: "/images/place_8.jpg",
       location: "South Africa",
       rating: "4.8",
     },
