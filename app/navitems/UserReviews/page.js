@@ -1,111 +1,230 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation"; // Use next/navigation for app directory
+import { Star, ArrowLeft, User, Clock, Image as ImageIcon, X, Upload } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const UserReviewPage = () => {
   const router = useRouter(); // Initialize the router
   const [reviews, setReviews] = useState([]); // State to hold reviews
   const [name, setName] = useState(""); // State for user name
   const [review, setReview] = useState(""); // State for review content
+  const [rating, setRating] = useState(0);
+  const [hoveredRating, setHoveredRating] = useState(0);
 
   // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name && review) {
-      const newReview = { id: Date.now(), name, review };
-      setReviews([...reviews, newReview]); // Add the new review to the existing reviews
-      setName(""); // Reset name input
-      setReview(""); // Reset review input
+    if (name && review && rating) {
+      const newReview = {
+        id: Date.now(),
+        name,
+        review,
+        rating,
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString()
+      };
+      setReviews([newReview, ...reviews]);
+      setName("");
+      setReview("");
+      setRating(0);
     }
   };
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center py-6 px-8"
-      style={{ backgroundImage: "url('/images/seychelles.jpg')" }} // Add your background image path here
-    >
-      {/* Back Button */}
-      <button
-        onClick={() => router.back()}
-        className="absolute top-4 left-4 flex items-center text-white mb-4 hover:text-orange-900 z-50"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-5 h-5 mr-2"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 12H3m0 0l6-6m-6 6l6 6"
-          />
-        </svg>
-        Back
-      </button>
-
-      <h1 className="text-4xl font-bold text-center mb-8 text-orange-600">
-        User Reviews
-      </h1>
-
-      {/* Review Form */}
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-lg mx-auto bg-white bg-opacity-30 shadow-lg rounded-lg p-6 mb-8 border border-gray-200 backdrop-filter backdrop-blur-sm"
-      >
-        <h2 className="text-2xl font-semibold mb-4 text-orange-600">Leave a Review</h2>
-        <div className="mb-4">
-          <label className="block text-gray-800 mb-2" htmlFor="name">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 text-gray-900"
-            required
-          />
+    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
+      {/* Hero Section with Background Image */}
+      <div className="relative h-[300px] mb-12">
+        <div className="absolute inset-0 bg-cover bg-center" style={{ 
+          backgroundImage: "url('/images/review-hero.jpg')",
+          backgroundBlendMode: "overlay",
+        }}>
+          <div className="absolute inset-0 bg-black/40" />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-800 mb-2" htmlFor="review">
-            Review
-          </label>
-          <textarea
-            id="review"
-            value={review}
-            onChange={(e) => setReview(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 text-gray-900"
-            rows="4"
-            required
-          ></textarea>
+        <div className="relative h-full flex flex-col items-center justify-center text-white px-4">
+          <h1 className="text-5xl font-bold text-center mb-4">
+            Share Your Journey
+          </h1>
+          <p className="text-xl text-center max-w-2xl">
+            Your stories inspire fellow travelers and help us improve
+          </p>
         </div>
-        <button
-          type="submit"
-          className="w-full bg-orange-500 text-white py-2 rounded-lg font-semibold hover:bg-orange-600 transition duration-200"
-        >
-          Submit Review
-        </button>
-      </form>
+      </div>
 
-      {/* Review List */}
-      <div className="max-w-lg mx-auto">
-        <h2 className="text-2xl font-semibold mb-4 text-orange-600">Existing Reviews</h2>
-        {reviews.length === 0 ? (
-          <p className="text-gray-600">No reviews yet. Be the first to leave one!</p>
-        ) : (
-          reviews.map((review) => (
-            <div
-              key={review.id}
-              className="bg-white bg-opacity-90 shadow-md rounded-lg p-4 mb-4 border border-gray-200 transition-transform transform hover:scale-105"
-            >
-              <h3 className="font-bold text-gray-800">{review.name}</h3>
-              <p className="text-gray-600">{review.review}</p>
+      {/* Stats Section */}
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4 mb-12">
+        <div className="bg-white rounded-xl shadow-lg p-6 text-center transform hover:scale-105 transition-transform">
+          <div className="text-4xl font-bold text-orange-500 mb-2">1.2K+</div>
+          <div className="text-gray-600">Happy Travelers</div>
+        </div>
+        <div className="bg-white rounded-xl shadow-lg p-6 text-center transform hover:scale-105 transition-transform">
+          <div className="text-4xl font-bold text-orange-500 mb-2">4.8</div>
+          <div className="text-gray-600">Average Rating</div>
+        </div>
+        <div className="bg-white rounded-xl shadow-lg p-6 text-center transform hover:scale-105 transition-transform">
+          <div className="text-4xl font-bold text-orange-500 mb-2">850+</div>
+          <div className="text-gray-600">Reviews Shared</div>
+        </div>
+      </div>
+
+      {/* Featured Reviews Gallery */}
+      <div className="max-w-6xl mx-auto mb-12 px-4">
+        <h2 className="text-3xl font-bold text-center mb-8">Featured Memories</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map((num) => (
+            <div key={num} className="relative group overflow-hidden rounded-xl">
+              <img 
+                src={`/images/travel${num}.jpg`} 
+                alt={`Travel moment ${num}`}
+                className="w-full h-48 object-cover transform group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute bottom-4 left-4 text-white">
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-current text-yellow-400" />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
-          ))
-        )}
+          ))}
+        </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-4 pb-12">
+        {/* Review Form Section */}
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-12 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-40 h-40 transform translate-x-20 -translate-y-20">
+            <div className="absolute inset-0 bg-orange-100 rounded-full opacity-20"></div>
+          </div>
+          
+          <h2 className="text-3xl font-bold mb-6 text-gray-800 relative z-10">Share Your Experience</h2>
+          
+          {/* Review Form */}
+          <motion.form
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            onSubmit={handleSubmit}
+            className="relative z-10"
+          >
+            <div className="mb-6">
+              <label className="block text-gray-700 font-medium mb-2">
+                Your Name
+              </label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                placeholder="Enter your name"
+                required
+              />
+            </div>
+
+            <div className="mb-6">
+              <label className="block text-gray-700 font-medium mb-2">
+                Rating
+              </label>
+              <div className="flex items-center space-x-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    onMouseEnter={() => setHoveredRating(star)}
+                    onMouseLeave={() => setHoveredRating(0)}
+                    onClick={() => setRating(star)}
+                    className="focus:outline-none transition-transform hover:scale-110"
+                  >
+                    <Star
+                      className={`w-8 h-8 ${
+                        star <= (hoveredRating || rating)
+                          ? 'text-yellow-400 fill-current'
+                          : 'text-gray-300'
+                      }`}
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <label className="block text-gray-700 font-medium mb-2">
+                Your Review
+              </label>
+              <textarea
+                value={review}
+                onChange={(e) => setReview(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
+                rows="4"
+                placeholder="Share your experience with us..."
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-orange-500 text-white py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors duration-300"
+            >
+              Submit Review
+            </button>
+          </motion.form>
+        </div>
+
+        {/* Reviews List with Enhanced Styling */}
+        <div className="space-y-6">
+          <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+            Recent Reviews
+          </h2>
+
+          <div className="grid gap-6">
+            {reviews.map((review) => (
+              <motion.div
+                key={review.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                      {review.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-lg text-gray-800">{review.name}</h3>
+                      <div className="flex items-center space-x-1">
+                        {[...Array(review.rating)].map((_, i) => (
+                          <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-gray-500 text-sm flex items-center">
+                    <Clock className="w-4 h-4 mr-1" />
+                    {review.date}
+                  </div>
+                </div>
+
+                <p className="text-gray-600 leading-relaxed mb-4">{review.review}</p>
+
+                {/* Review Images Grid */}
+                {review.images?.length > 0 && (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
+                    {review.images.map((image) => (
+                      <div key={image.id} className="relative rounded-lg overflow-hidden">
+                        <img
+                          src={image.url}
+                          alt="Review"
+                          className="w-full h-32 object-cover hover:opacity-90 transition-opacity"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
