@@ -334,7 +334,9 @@ const TravelStories = () => {
                 </div>
               </div>
             </motion.div>
+            
           ))}
+            
         </div>
       </div>
 
@@ -342,7 +344,7 @@ const TravelStories = () => {
       <AnimatePresence>
         {selectedStory && <StoryDetailModal story={selectedStory} />}
       </AnimatePresence>
-
+      
       {/* Share Story Form Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
