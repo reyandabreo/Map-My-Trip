@@ -1,31 +1,36 @@
 "use client";
-import React, { useState } from 'react';
-import { FaFacebookF, FaGoogle, FaApple } from 'react-icons/fa';
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import { FaFacebookF, FaGoogle, FaApple } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
-    const res = await fetch('/api/auth/signin', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    if (!isTermsChecked) {
+      alert("Please agree to the Terms of Service and Privacy Policy to proceed.");
+      return;
+    }
+
+    const res = await fetch("/api/auth/signin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
 
     const data = await res.json();
 
     if (res.ok) {
-      localStorage.setItem('token', data.token);
-      router.push('/');
-      // Handle successful login (e.g., redirect user, store token, etc.)
-      console.log('Login successful:', data);
+      localStorage.setItem("token", data.token);
+      router.push("/");
+      console.log("Login successful:", data);
     } else {
       setError(data.message);
     }
@@ -33,10 +38,10 @@ function Login() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-      <div className="bg-white rounded-lg shadow-lg max-w-4xl w-full flex" style={{ margin: '20px', maxHeight: '90vh' }}>
+      <div className="bg-white rounded-lg shadow-lg max-w-4xl w-full flex" style={{ margin: "20px", maxHeight: "90vh" }}>
         <div className="w-1/2 p-10 overflow-y-auto">
           <div className="mb-6 text-sm text-gray-600">
-            Don't have an account?{' '}
+            Don't have an account?{" "}
             <a href="/user-auth/SignUp" className="text-orange-600 hover:underline">
               Sign Up
             </a>
@@ -52,6 +57,7 @@ function Login() {
                 id="email"
                 className="w-full p-3 border border-gray-300 rounded-lg"
                 placeholder="jdoe125@mail.com"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -63,8 +69,9 @@ function Login() {
               <input
                 type="password"
                 id="password"
-                className={`w-full p-3 border ${error ? 'border-red-500' : 'border-gray-300'} rounded-lg`}
+                className={`w-full p-3 border ${error ? "border-red-500" : "border-gray-300"} rounded-lg`}
                 placeholder="Enter your password"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
               {error && (
@@ -75,13 +82,19 @@ function Login() {
             </div>
 
             <div className="flex items-center mb-6">
-              <input type="checkbox" id="terms" className="mr-2" />
+              <input
+                type="checkbox"
+                id="terms"
+                className="mr-2"
+                checked={isTermsChecked}
+                onChange={(e) => setIsTermsChecked(e.target.checked)}
+              />
               <label htmlFor="terms" className="text-sm text-gray-600">
-                I’ve read and agree with{' '}
+                I’ve read and agree with{" "}
                 <a href="#" className="text-orange-600 hover:underline">
                   Terms of Service
-                </a>{' '}
-                and our{' '}
+                </a>{" "}
+                and our{" "}
                 <a href="#" className="text-orange-600 hover:underline">
                   Privacy Policy
                 </a>
@@ -111,7 +124,13 @@ function Login() {
         </div>
 
         <div className="w-1/2 rounded-r-lg flex items-center justify-center">
-          <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('/images/signin_image.jpg')`, borderRadius: '0 8px 8px 0' }}></div>
+          <div
+            className="w-full h-full bg-cover bg-center"
+            style={{
+              backgroundImage: `url('/images/signin_image.jpg')`,
+              borderRadius: "0 8px 8px 0",
+            }}
+          ></div>
         </div>
       </div>
     </div>

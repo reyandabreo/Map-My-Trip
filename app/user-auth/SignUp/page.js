@@ -1,13 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { FaFacebookF, FaGoogle, FaApple } from "react-icons/fa";
-import { useRouter } from 'next/navigation'; // To handle redirection
+import { useRouter } from "next/navigation"; // To handle redirection
 
 function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isTermsChecked, setIsTermsChecked] = useState(false); // State to track checkbox
   const router = useRouter(); // Initialize router for redirecting
 
   const validatePassword = (password) => {
@@ -27,6 +28,11 @@ function SignUp() {
       return;
     }
 
+    if (!isTermsChecked) {
+      alert("Please agree to the Terms of Service and Privacy Policy to proceed.");
+      return;
+    }
+
     if (passwordError) {
       alert("Please fix the errors in the form.");
       return;
@@ -35,7 +41,7 @@ function SignUp() {
     const res = await fetch("/api/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }), // Submit name, email, and password
+      body: JSON.stringify({ name, email, password }), 
     });
 
     const data = await res.json();
@@ -58,7 +64,8 @@ function SignUp() {
             </a>
           </div>
           <h2 className="text-3xl font-bold mb-8">Sign Up</h2>
-          <form onSubmit={handleSubmit}> {/* Attach handleSubmit to form */}
+          <form onSubmit={handleSubmit}>
+            {/* Attach handleSubmit to form */}
             <div className="mb-6">
               <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
                 Name
@@ -94,7 +101,9 @@ function SignUp() {
               <input
                 type="password"
                 id="password"
-                className={`w-full p-3 border ${passwordError ? 'border-red-500' : 'border-gray-300'} rounded-lg`}
+                className={`w-full p-3 border ${
+                  passwordError ? "border-red-500" : "border-gray-300"
+                } rounded-lg`}
                 placeholder="Enter your password"
                 value={password} // Bind input to state
                 onChange={(e) => {
@@ -110,7 +119,13 @@ function SignUp() {
             </div>
 
             <div className="flex items-center mb-6">
-              <input type="checkbox" id="terms" className="mr-2" />
+              <input
+                type="checkbox"
+                id="terms"
+                className="mr-2"
+                checked={isTermsChecked} // Bind to state
+                onChange={(e) => setIsTermsChecked(e.target.checked)} // Update state on change
+              />
               <label htmlFor="terms" className="text-sm text-gray-600">
                 I’ve read and agree with{" "}
                 <a href="#" className="text-orange-600 hover:underline">
@@ -146,7 +161,13 @@ function SignUp() {
         </div>
 
         <div className="w-1/2 rounded-r-lg flex items-center justify-center">
-          <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('/images/signup_image.jpg')`, borderRadius: "0 8px 8px 0" }}></div>
+          <div
+            className="w-full h-full bg-cover bg-center"
+            style={{
+              backgroundImage: `url('/images/signup_image.jpg')`,
+              borderRadius: "0 8px 8px 0",
+            }}
+          ></div>
         </div>
       </div>
     </div>

@@ -98,7 +98,7 @@ const Trips = () => {
           Explore the best tools to plan your perfect trip, whether you do it yourself or let AI help.
         </p>
         <div>
-          <a href="/navitems/Trips/MakeMyPlan" className="inline-block px-8 py-4 bg-white text-teal-500 rounded-lg font-semibold hover:bg-gray-100 transition">
+          <a href="/navitems/Trips/ViewExistingPlan" className="inline-block px-8 py-4 bg-white text-teal-500 rounded-lg font-semibold hover:bg-gray-100 transition">
             Start Planning
           </a>
         </div>

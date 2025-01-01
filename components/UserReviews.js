@@ -7,7 +7,7 @@ const UserReviews = () => {
         <h3 className="text-orange-500 text-sm uppercase mb-2">FROM OUR CLIENTS</h3>
         <h2 className="text-4xl font-bold mb-4">Real Travel History From Our Beloved Clients</h2>
         <p className="text-gray-600 mb-6">
-          By choosing us as their tour agency, customers can expect an enriching and
+          By choosing MapMyTrip, customers can expect an enriching and
           enjoyable travel experience, filled with unforgettable memories that will last
           a lifetime.
         </p>

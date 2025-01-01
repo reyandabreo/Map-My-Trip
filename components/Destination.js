@@ -8,7 +8,7 @@ const CategoryTabs = ({ activeCategory, setActiveCategory }) => {
   const categories = ["All", "Recommended", "Beach", "Park", "Nature", "Mountain"];
 
   return (
-    <div className="flex space-x-4 mb-6">
+    <div className="flex space-x-4 mb-6 overflow-x-auto whitespace-nowrap">
       {categories.map((category, index) => (
         <button
           key={index}
@@ -25,6 +25,7 @@ const CategoryTabs = ({ activeCategory, setActiveCategory }) => {
     </div>
   );
 };
+
 
 // Helper function to create a URL-friendly slug
 const slugify = (name) => {
