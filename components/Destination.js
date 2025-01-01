@@ -26,7 +26,6 @@ const CategoryTabs = ({ activeCategory, setActiveCategory }) => {
   );
 };
 
-
 // Helper function to create a URL-friendly slug
 const slugify = (name) => {
   return name.toLowerCase().replace(/\s+/g, '-');
