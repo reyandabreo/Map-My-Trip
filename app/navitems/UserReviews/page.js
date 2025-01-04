@@ -36,7 +36,7 @@ const UserReviewPage = () => {
       {/* Hero Section with Background Image */}
       <div className="relative h-[300px] mb-12">
         <div className="absolute inset-0 bg-cover bg-center" style={{ 
-          backgroundImage: "url('/images/review-hero.jpg')",
+          backgroundImage: "url('/images/everest.jpg')",
           backgroundBlendMode: "overlay",
         }}>
           <div className="absolute inset-0 bg-black/40" />
