@@ -62,9 +62,9 @@ Planning trips often feels like a complex puzzle. Challenges include:
 
 ### **Hardware**
 - **CPU**: Intel Core i3/i5 or AMD Ryzen 3/5
-- **RAM**: 16GB DDR4/DDR5
-- **Storage**: 1TB HDD or 500GB SSD
-- **GPU**: NVIDIA GeForce RTX 3050 or higher
+- **RAM**: 8GB DDR3/DDR4
+- **Storage**: 512TB HDD or 512GB SSD
+- **GPU**: Integrated GPU or Radeon/Nvidia
 
 ---
 
