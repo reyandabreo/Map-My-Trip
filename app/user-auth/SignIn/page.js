@@ -81,6 +81,12 @@ function Login() {
               )}
             </div>
 
+            <div className="mb-6 text-sm text-gray-600">
+            <a href="/user-auth/ForgotPassword" className="text-orange-600 hover:underline">
+              forgot password?
+            </a>
+          </div>
+
             <div className="flex items-center mb-6">
               <input
                 type="checkbox"
