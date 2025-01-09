@@ -9,7 +9,10 @@ model User {
   name      String
   email     String   @unique
   password  String
+  passwordResetToken   String?   // Nullable field for reset token
+  passwordResetExpires DateTime? // Nullable field for token expiry
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 generator client {

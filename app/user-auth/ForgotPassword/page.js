@@ -11,7 +11,8 @@ const ForgotPassword = () => {
     return emailRegex.test(email);
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
@@ -30,7 +31,21 @@ const ForgotPassword = () => {
     // For demo purposes, we'll just show a success message
     setSuccess('Password reset link has been sent to your email');
     setEmail('');
+
+    const response = await fetch("/api/auth/forgotpassword", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+  
+    const data = await response.json();
+    if (data.message === "Password reset email sent") {
+      alert("Check your email for reset instructions.");
+    } else {
+      alert(data.message);
+    }
   };
+  
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">

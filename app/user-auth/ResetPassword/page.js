@@ -13,7 +13,7 @@ const ResetPassword = () => {
     return passwordRegex.test(password);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
@@ -40,6 +40,20 @@ const ResetPassword = () => {
     setSuccess('Your password has been reset successfully');
     setPassword('');
     setConfirmPassword('');
+
+    const response = await fetch("/api/auth/resetpassword", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, newPassword }),
+    });
+  
+    const data = await response.json();
+    if (data.message === "Password reset successfully") {
+      alert("Password reset successful. You can now log in.");
+    } else {
+      alert(data.message);
+    }
+
   };
 
   return (
