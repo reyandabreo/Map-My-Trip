@@ -231,17 +231,37 @@ const TravelStories = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Back Button */}
-      <div className="absolute top-4 left-4 z-10">
-          <button 
-            onClick={() => router.back()} 
-            className="flex items-center text-white  bg-opacity-50 rounded-lg px-3 py-2 hover:text-orange-900 z-50"
+      <button
+            onClick={() => router.back()}
+            style={{
+              position: 'absolute',
+              top: '10px',
+              left: '10px',
+              padding: '10px 20px',
+              backgroundColor: 'rgba(255, 255, 255, 0)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              transition: 'background-color 0.3s, transform 0.3s',
+              zIndex: 10, // Ensure the button is on top
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
+              e.target.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+              e.target.style.transform = 'scale(1)';
+            }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H3m0 0h12m-12 0l4-4m-4 4l4 4" />
-            </svg>
             Back
           </button>
-        </div>
+
 
       {/* Hero Section */}
       <div className="relative h-96">

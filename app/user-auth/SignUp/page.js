@@ -54,6 +54,38 @@ function SignUp() {
   };
 
   return (
+    <>
+     {/* Back Button */}
+     <button
+            onClick={() => router.back()}
+            style={{
+              position: 'absolute',
+              top: '10px',
+              left: '10px',
+              padding: '10px 20px',
+              backgroundColor: 'rgba(224, 110, 3, 0.9)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              transition: 'background-color 0.3s, transform 0.3s',
+              zIndex: 10, // Ensure the button is on top
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = 'rgba(212, 133, 14, 0.81)';
+              e.target.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = 'rgba(224, 110, 3, 0.9)';
+              e.target.style.transform = 'scale(1)';
+            }}
+          >
+            Back
+          </button>
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
       <div className="bg-white rounded-lg shadow-lg max-w-4xl w-full flex" style={{ margin: "20px", maxHeight: "90vh" }}>
         <div className="w-1/2 p-10 overflow-y-auto">
@@ -171,6 +203,7 @@ function SignUp() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

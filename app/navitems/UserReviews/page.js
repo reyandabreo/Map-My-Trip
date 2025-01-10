@@ -32,7 +32,8 @@ const UserReviewPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
+    <>
+   <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
       {/* Hero Section with Background Image */}
       <div className="relative h-[300px] mb-12">
         <div className="absolute inset-0 bg-cover bg-center" style={{ 
@@ -42,6 +43,35 @@ const UserReviewPage = () => {
           <div className="absolute inset-0 bg-black/40" />
         </div>
         <div className="relative h-full flex flex-col items-center justify-center text-white px-4">
+          <button
+            onClick={() => router.back()}
+            style={{
+              position: 'absolute',
+              top: '10px',
+              left: '10px',
+              padding: '10px 20px',
+              backgroundColor: 'rgba(255, 255, 255, 0)',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              transition: 'background-color 0.3s, transform 0.3s',
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
+              e.target.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+              e.target.style.transform = 'scale(1)';
+            }}
+          >
+            Back
+          </button>
           <h1 className="text-5xl font-bold text-center mb-4">
             Share Your Journey
           </h1>
@@ -50,19 +80,18 @@ const UserReviewPage = () => {
           </p>
         </div>
       </div>
-
       {/* Stats Section */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4 mb-12">
         <div className="bg-white rounded-xl shadow-lg p-6 text-center transform hover:scale-105 transition-transform">
-          <div className="text-4xl font-bold text-orange-500 mb-2">1.2K+</div>
+          <div className="text-4xl font-bold text-orange-500 mb-2">--</div>
           <div className="text-gray-600">Happy Travelers</div>
         </div>
         <div className="bg-white rounded-xl shadow-lg p-6 text-center transform hover:scale-105 transition-transform">
-          <div className="text-4xl font-bold text-orange-500 mb-2">4.8</div>
+          <div className="text-4xl font-bold text-orange-500 mb-2">--</div>
           <div className="text-gray-600">Average Rating</div>
         </div>
         <div className="bg-white rounded-xl shadow-lg p-6 text-center transform hover:scale-105 transition-transform">
-          <div className="text-4xl font-bold text-orange-500 mb-2">850+</div>
+          <div className="text-4xl font-bold text-orange-500 mb-2">--</div>
           <div className="text-gray-600">Reviews Shared</div>
         </div>
       </div>
@@ -227,6 +256,7 @@ const UserReviewPage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
