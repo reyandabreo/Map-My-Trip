@@ -134,5 +134,3 @@ MapMyTrip transforms travel planning into an exciting and stress-free experience
 
 For further details, visit the [documentation](https://github.com/your-username/mapmytrip/docs).
 
-<img src="https://github.com/user-attachments/assets/1d149b22-0af6-4fe7-9621-6d6fcf879e72" alt="Description" width="1080" height="620"/>
-
