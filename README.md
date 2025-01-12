@@ -123,7 +123,7 @@ We love contributions! Here’s how you can help:
 
 ## 🏁 Conclusion
 
-MapMyTrip transforms travel planning into an exciting and stress-free experience. With AI-powered tools and seamless integration, planning your next adventure has never been easier. Try **MapMyTrip** today and make every trip memorable!
+*MapMyTrip* transforms travel planning into an exciting and stress-free experience. With AI-powered tools and seamless integration, planning your next adventure has never been easier. Try **MapMyTrip** today and make every trip memorable!
 
 ---
 
