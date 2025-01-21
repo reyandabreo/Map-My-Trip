@@ -15,6 +15,16 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+model Review {
+  id        String   @id @default(uuid())
+  name      String
+  review    String
+  date      String
+  time      String
+  images    String[]
+  createdAt DateTime @default(now())
+}
+
 generator client {
   provider = "prisma-client-js"
 }

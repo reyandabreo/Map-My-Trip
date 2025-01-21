@@ -12,27 +12,44 @@ const UserReviewPage = () => {
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
   const [images, setImages] = useState([]); // State to store uploaded images
+  const [newReview, setNewReview] = useState({
+    name: '',
+    review: '',
+    images: [],
+  });
+  
 
   // Function to handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (name && review && rating) {
-      const newReview = {
-        id: Date.now(),
-        name,
-        review,
-        rating,
-        date: new Date().toLocaleDateString(),
-        time: new Date().toLocaleTimeString(),
-        images
-      };
-      setReviews([newReview, ...reviews]);
-      setName("");
-      setReview("");
-      setRating(0);
-      setImages([]); // Clear images after submission
+  
+    const formData = {
+      name: newReview.name,
+      review: newReview.review,
+      date: new Date().toISOString().split('T')[0], // Current date
+      time: new Date().toLocaleTimeString(), // Current time
+      images: newReview.images || [],
+    };
+  
+    try {
+      const response = await fetch('/api/reviews', { // Correct path
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json' },
+      });
+  
+      if (response.ok) {
+        console.log('Review submitted successfully');
+        setNewReview({ name: '', review: '', images: [] });
+        fetchReviews();
+      } else {
+        console.error('Error submitting review');
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
+  
 
   // Function to handle image uploads
   const handleImageChange = (e) => {
