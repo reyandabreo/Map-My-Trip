@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"; // Use next/navigation for app directory
 import { Star, ArrowLeft, User, Clock, Image as ImageIcon, X, Upload } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -17,9 +17,22 @@ const UserReviewPage = () => {
     review: '',
     images: [],
   });
+  // Fetch reviews from API
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch('/api/reviews'); // Fetch from your API route
+      if (response.ok) {
+        const data = await response.json();
+        setReviews(data); // Update state with fetched reviews
+      } else {
+        console.error('Error fetching reviews');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
   
-
-  // Function to handle form submission
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -32,7 +45,7 @@ const UserReviewPage = () => {
     };
   
     try {
-      const response = await fetch('/api/reviews', { // Correct path
+      const response = await fetch('/api/reviews', {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: { 'Content-Type': 'application/json' },
@@ -41,7 +54,7 @@ const UserReviewPage = () => {
       if (response.ok) {
         console.log('Review submitted successfully');
         setNewReview({ name: '', review: '', images: [] });
-        fetchReviews();
+        fetchReviews(); // Fetch updated reviews
       } else {
         console.error('Error submitting review');
       }
@@ -49,6 +62,11 @@ const UserReviewPage = () => {
       console.error('Error:', error);
     }
   };
+  
+  // Fetch reviews on component mount
+  useEffect(() => {
+    fetchReviews();
+  }, []);
   
 
   // Function to handle image uploads
@@ -170,8 +188,8 @@ const UserReviewPage = () => {
                 </label>
                 <input
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={newReview?.name || ''}
+                  onChange={(e) => setNewReview((prev) => ({ ...prev, name: e.target.value }))}
                   className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                   placeholder="Enter your name"
                   required
@@ -209,11 +227,11 @@ const UserReviewPage = () => {
                   Your Review
                 </label>
                 <textarea
-                  value={review}
-                  onChange={(e) => setReview(e.target.value)}
+                  value={newReview?.review || ''}
                   className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                   rows="4"
                   placeholder="Share your experience with us..."
+                  onChange={(e) => setNewReview((prev) => ({ ...prev, review: e.target.value }))}
                   required
                 />
               </div>
