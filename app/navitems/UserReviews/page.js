@@ -70,11 +70,23 @@ const UserReviewPage = () => {
   
 
   // Function to handle image uploads
-  const handleImageChange = (e) => {
+  const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
-    const newImages = files.map(file => URL.createObjectURL(file)); // Create object URLs for the images
-    setImages([...images, ...newImages]);
+  
+    Promise.all(
+      files.map((file) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+        });
+      })
+    ).then((images) => {
+      setNewReview((prev) => ({ ...prev, images })); // Store as Base64
+    });
   };
+  
 
   return (
     <>
@@ -244,7 +256,7 @@ const UserReviewPage = () => {
                   type="file"
                   accept="image/*"
                   multiple
-                  onChange={handleImageChange}
+                  onChange={(e) => handleImageUpload(e)}
                   className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
                 />
               </div>
@@ -296,17 +308,31 @@ const UserReviewPage = () => {
 
                   <p className="text-gray-600 mb-4">{review.review}</p>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    {review.images.map((image, index) => (
-                      <div key={index} className="overflow-hidden rounded-lg shadow-md">
-                        <img
-                          src={image}
-                          alt="Review image"
-                          className="w-full h-32 object-cover rounded-lg"
-                        />
+                  <div className="space-y-6">
+                    {reviews.map((review, index) => (
+                      <div key={index} className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
+                        {/* User Name & Review */}
+                        <h3 className="text-lg font-semibold text-gray-800">{review.name}</h3>
+                        <p className="text-gray-600">{review.review}</p>
+
+                        {/* Images Section */}
+                        {review.images && review.images.length > 0 && (
+                          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-3">
+                            {review.images.map((img, i) => (
+                              <div key={i} className="overflow-hidden rounded-lg shadow-md border border-gray-200">
+                                <img
+                                  src={img}
+                                  alt="User uploaded"
+                                  className="w-full h-24 md:h-32 lg:h-40 object-cover rounded-lg transition-transform duration-300 hover:scale-105"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
+
                 </motion.div>
               ))}
             </div>
