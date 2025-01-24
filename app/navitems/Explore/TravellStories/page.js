@@ -10,6 +10,14 @@ const TravelStories = () => {
   const [showForm, setShowForm] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedStory, setSelectedStory] = useState(null);
+  const [experience, setExperience] = useState('');
+  const [tips, setTips] = useState('');
+  const [category, setCategory] = useState('');
+  const [rating, setRating] = useState(null);
+  const [budget, setBudget] = useState('');
+  const [duration, setDuration] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+
   const [form, setForm] = useState({
     name: '',
     location: '',
@@ -53,9 +61,20 @@ const TravelStories = () => {
   ];
 
   useEffect(() => {
-    // Initialize with sample stories
+    const fetchStories = async () => {
+      try {
+        const res = await fetch('/api/travell-stories/create');
+        const data = await res.json();
+        setStories(data);
+      } catch (error) {
+        console.error('Error fetching stories:', error);
+      }
+    };
+  
+    fetchStories();
     setStories(initialStories);
   }, []);
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -68,6 +87,56 @@ const TravelStories = () => {
     setForm({ ...form, images: [...form.images, ...imageUrls] });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    console.log('📌 Submitting form with:', {
+      name, location, experience, tips, category, rating, budget, duration, images: [imageUrl]
+    });
+  
+    try {
+      const res = await fetch('/api/travell-stories/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          location: window.location.href,
+          experience,
+          tips,
+          category,
+          rating: Number(rating),
+          budget,
+          duration,
+          images: [imageUrl], // Ensure this is an array
+        }),
+      });
+  
+      console.log('📌 Raw Response:', res);
+      
+      // Check if response is empty
+      const text = await res.text();  
+      console.log('📌 Response Text:', text);
+  
+      if (!text) {
+        throw new Error('Received empty response from server');
+      }
+  
+      const data = JSON.parse(text);
+      console.log('📌 API Response:', data);
+  
+      if (!res.ok) {
+        throw new Error(data.message || 'Failed to create travel story');
+      }
+  
+      setStories([data, ...stories]);
+      setShowForm(false);
+    } catch (error) {
+      console.error('❌ Submission Error:', error);
+    }
+  };
+  
+  
+  /*
   const handleSubmit = (e) => {
     e.preventDefault();
     const newStory = {
@@ -92,7 +161,7 @@ const TravelStories = () => {
     });
     setShowForm(false);
   };
-
+*/
   const toggleLike = (storyId) => {
     setStories(stories.map(story => 
       story.id === storyId 
