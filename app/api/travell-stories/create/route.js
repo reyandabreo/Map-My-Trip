@@ -5,6 +5,11 @@ const prisma = new PrismaClient();
 
 export async function POST(req) {
   try {
+    
+    if (req.method !== 'POST') {
+        return res.status(405).json({ message: 'Method Not Allowed' });
+    }
+     
     const body = await req.json();
     console.log("📌 Received Data:", body);
 

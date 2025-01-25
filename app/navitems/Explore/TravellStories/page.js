@@ -18,6 +18,7 @@ const TravelStories = () => {
   const [duration, setDuration] = useState('');
   const [imageUrl, setImageUrl] = useState('');
 
+
   const [form, setForm] = useState({
     name: '',
     location: '',
@@ -89,25 +90,21 @@ const TravelStories = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    console.log('📌 Submitting form with:', {
-      name, location, experience, tips, category, rating, budget, duration, images: [imageUrl]
-    });
   
     try {
       const res = await fetch('/api/travell-stories/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name,
-          location: window.location.href,
-          experience,
-          tips,
-          category,
-          rating: Number(rating),
-          budget,
-          duration,
-          images: [imageUrl], // Ensure this is an array
+          name:form.name,
+          location: form.location,
+          experience:form.experience,
+          tips:form.tips,
+          category:form.category,
+          rating: form.rating,
+          budget:form.budget,
+          duration:form.duration,
+          images: form.images || [0], // Ensure this is an array
         }),
       });
   
@@ -127,8 +124,10 @@ const TravelStories = () => {
       if (!res.ok) {
         throw new Error(data.message || 'Failed to create travel story');
       }
+
+     // const newStory = { ...data, images: data.images || [] };
   
-      setStories([data, ...stories]);
+      setStories([res, ...stories]);
       setShowForm(false);
     } catch (error) {
       console.error('❌ Submission Error:', error);
@@ -213,7 +212,7 @@ const TravelStories = () => {
           {/* Image gallery */}
           <div className="relative h-96">
             <img
-              src={story.images[0]}
+              src={story.images}
               alt={story.location}
               className="w-full h-full object-cover"
             />
@@ -384,7 +383,7 @@ const TravelStories = () => {
             >
               <div className="relative h-64">
                 <img
-                  src={story.images[0]}
+                  src={story.images}
                   alt={story.location}
                   className="w-full h-full object-cover"
                 />
