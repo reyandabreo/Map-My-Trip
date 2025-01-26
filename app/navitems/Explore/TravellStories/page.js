@@ -69,11 +69,11 @@ const TravelStories = () => {
         setStories(data);
       } catch (error) {
         console.error('Error fetching stories:', error);
+        setStories(initialStories);
       }
     };
   
     fetchStories();
-    setStories(initialStories);
   }, []);
   
 
