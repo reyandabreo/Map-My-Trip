@@ -17,7 +17,7 @@ const TravelStories = () => {
   const [budget, setBudget] = useState('');
   const [duration, setDuration] = useState('');
   const [imageUrl, setImageUrl] = useState('');
-
+  const [imagePreview, setImagePreview] = useState([]);
 
   const [form, setForm] = useState({
     name: '',
@@ -45,7 +45,7 @@ const TravelStories = () => {
       rating: 5,
       budget: "$1500",
       duration: "10 days",
-      images: ["/images/bali.jpg", "/images/bali2.jpg"],
+      images: ["/images/bali.jpg"],
       likes: 245,
       comments: 18
     },
@@ -64,7 +64,7 @@ const TravelStories = () => {
   useEffect(() => {
     const fetchStories = async () => {
       try {
-        const res = await fetch('/api/travell-stories/create');
+        const res = await fetch('/api/travell-stories/index');
         const data = await res.json();
         setStories(data);
       } catch (error) {
@@ -72,7 +72,6 @@ const TravelStories = () => {
         setStories(initialStories);
       }
     };
-  
     fetchStories();
   }, []);
   
@@ -82,12 +81,20 @@ const TravelStories = () => {
     setForm({ ...form, [name]: value });
   };
 
+
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
-    const imageUrls = files.map(file => URL.createObjectURL(file));
-    setForm({ ...form, images: [...form.images, ...imageUrls] });
+    const fileObjects = files.map(file => ({
+      file,
+      preview: URL.createObjectURL(file) // Temporary preview
+    }));
+  
+    setForm((prevForm) => ({
+      ...prevForm,
+      images: [...prevForm.images, ...fileObjects]
+    }));
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -107,7 +114,10 @@ const TravelStories = () => {
           images: form.images || [0], // Ensure this is an array
         }),
       });
-  
+      const newStory = res;
+      // Update UI immediately
+      setStories([newStory, ...stories]);
+
       console.log('📌 Raw Response:', res);
       
       // Check if response is empty
@@ -132,40 +142,31 @@ const TravelStories = () => {
     } catch (error) {
       console.error('❌ Submission Error:', error);
     }
+
+    // Reset form after submission
+  setForm({
+    name: '',
+    location: '',
+    date: '',
+    experience: '',
+    tips: '',
+    category: '',
+    rating: 0,
+    budget: '',
+    duration: '',
+    images: [],
+  });
+  setImagePreview([]);
+  setShowForm(false);
+
   };
-  
-  
-  /*
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newStory = {
-      ...form,
-      id: stories.length + 1,
-      likes: 0,
-      comments: 0,
-      date: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-    };
-    setStories([newStory, ...stories]);
-    setForm({
-      name: '',
-      location: '',
-      date: '',
-      experience: '',
-      tips: '',
-      category: '',
-      rating: 0,
-      budget: '',
-      duration: '',
-      images: [],
-    });
-    setShowForm(false);
-  };
-*/
+
   const toggleLike = (storyId) => {
     setStories(stories.map(story => 
       story.id === storyId 
         ? { ...story, likes: story.likes + 1 } 
         : story
+      
     ));
   };
 
@@ -238,6 +239,13 @@ const TravelStories = () => {
                 <div className="text-orange-500 font-semibold">{story.duration}</div>
                 <div className="text-gray-600">Budget: {story.budget}</div>
               </div>
+            </div>
+
+            {/* Image Preview */}
+            <div className="flex gap-2 mb-2">
+              {imagePreview.map((img, index) => (
+                <img key={index} src={img} alt="preview" className="w-16 h-16 object-cover rounded" />
+              ))}
             </div>
 
             {/* Rating */}
