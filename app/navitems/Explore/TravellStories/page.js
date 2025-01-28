@@ -85,15 +85,23 @@ const TravelStories = () => {
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
     const fileObjects = files.map(file => ({
-      file,
-      preview: URL.createObjectURL(file) // Temporary preview
+       file,
+       preview: URL.createObjectURL(file)
     }));
-  
-    setForm((prevForm) => ({
-      ...prevForm,
-      images: [...prevForm.images, ...fileObjects]
+ 
+    setForm(prevForm => ({
+       ...prevForm,
+       images: [...(prevForm.images || []), ...fileObjects]
     }));
-  };
+ };
+ 
+ // Cleanup to prevent memory leaks
+ useEffect(() => {
+    return () => {
+       form.images?.forEach(img => URL.revokeObjectURL(img.preview));
+    };
+ }, [form.images]);
+ 
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -606,18 +614,20 @@ const TravelStories = () => {
                     onChange={handleImageUpload}
                     className="w-full"
                   />
-                  {form.images.length > 0 && (
+                  {form.images?.length > 0 && (
                     <div className="mt-4 grid grid-cols-3 gap-4">
                       {form.images.map((image, index) => (
                         <div key={index} className="relative">
                           <img
-                            src={image}
+                            src={image.preview} // ✅ Fix: use image.preview instead of image
                             alt={`Upload ${index + 1}`}
                             className="w-full h-24 object-cover rounded"
                           />
                           <button
                             type="button"
                             onClick={() => {
+                              // ✅ Fix: Prevent memory leaks by revoking URL before removing the image
+                              URL.revokeObjectURL(image.preview);
                               const newImages = form.images.filter((_, i) => i !== index);
                               setForm({ ...form, images: newImages });
                             }}
@@ -631,6 +641,7 @@ const TravelStories = () => {
                   )}
                 </div>
               </div>
+
 
               {/* Submit Buttons */}
               <div className="flex justify-end space-x-4 mt-6">
