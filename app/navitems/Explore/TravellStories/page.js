@@ -81,20 +81,29 @@ const TravelStories = () => {
     setForm({ ...form, [name]: value });
   };
 
-
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
-    const fileObjects = files.map(file => ({
-       file,
-       preview: URL.createObjectURL(file)
+    
+    const base64Images = await Promise.all(
+      files.map((file) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+        });
+      })
+    );
+  
+    setForm((prev) => ({
+      ...prev,
+      images: [...prev.images, ...base64Images], // Ensure images are added
     }));
- 
-    setForm(prevForm => ({
-       ...prevForm,
-       images: [...(prevForm.images || []), ...fileObjects]
-    }));
- };
- 
+  
+    console.log("Updated form:", form);
+  };
+  
+  
  // Cleanup to prevent memory leaks
  useEffect(() => {
     return () => {
