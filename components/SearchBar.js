@@ -51,6 +51,10 @@ const SearchBar = () => {
     setSuggestions([]); 
   };
 
+  const handleClick=()=>{
+    console.log("Button clicked");
+  }
+
   return (
     <div className="flex flex-col items-center w-full p-4 space-y-4">
       {/* Category Toggle Section */}
@@ -171,7 +175,10 @@ const SearchBar = () => {
           onChange={handleInputChange}
           className="flex-grow px-4 py-3 sm:px-2 md:px-6 bg-gray-100 border border-gray-300 rounded-l-full text-gray-800 focus:ring-2 focus:ring-orange-500 outline-none transition-all"
         />
-        <button className="bg-orange-500 text-white px-4 py-3 sm:px-2 md:px-6 rounded-r-full hover:bg-orange-600 transition-all">
+        <button 
+        className="bg-orange-500 text-white px-4 py-3 sm:px-2 md:px-6 rounded-r-full hover:bg-orange-600 transition-all"
+        onClick={handleClick}
+        >
           Search
         </button>
 
