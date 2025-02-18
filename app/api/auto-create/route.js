@@ -21,7 +21,6 @@ export async function POST(request) {
     if (!budget || !people || !startDate || !endDate || !place) {
       throw new Error("Missing required fields in the request body.");
     }
-
     // Generate the prompt for the Google API
     const prompt = `Create a detailed travel itinerary for ${people} people traveling to ${place} from ${startDate} to ${endDate} with a budget of ${budget}. Return the response as a JSON array of days, where each day contains a list of activities.`;
     console.log("Generated prompt:", prompt);
