@@ -123,7 +123,7 @@ We love contributions! Here’s how you can help:
 
 ## 🏁 Conclusion
 
-MapMyTrip transforms travel planning into an exciting and stress-free experience. With AI-powered tools and seamless integration, planning your next adventure has never been easier. Try **MapMyTrip** today and make every trip memorable!
+*MapMyTrip* transforms travel planning into an exciting and stress-free experience. With AI-powered tools and seamless integration, planning your next adventure has never been easier. Try **MapMyTrip** today and make every trip memorable!
 
 ---
 
@@ -133,6 +133,4 @@ MapMyTrip transforms travel planning into an exciting and stress-free experience
 - Additional research references as cited in the project.
 
 For further details, visit the [documentation](https://github.com/your-username/mapmytrip/docs).
-
-<img src="https://github.com/user-attachments/assets/1d149b22-0af6-4fe7-9621-6d6fcf879e72" alt="Description" width="1080" height="620"/>
 

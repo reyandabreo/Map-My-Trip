@@ -1,7 +1,12 @@
-"use client";
+'use client';
+
 import React, { useState } from 'react';
+import { useSearchParams } from "next/navigation";
 
 const ResetPassword = () => {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token"); // Extract token from query params
+
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -35,25 +40,31 @@ const ResetPassword = () => {
       return;
     }
 
-    // Here you would typically make an API call to handle password reset
-    // For demo purposes, we'll just show a success message
-    setSuccess('Your password has been reset successfully');
-    setPassword('');
-    setConfirmPassword('');
-
-    const response = await fetch("/api/auth/resetpassword", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, newPassword }),
-    });
-  
-    const data = await response.json();
-    if (data.message === "Password reset successfully") {
-      alert("Password reset successful. You can now log in.");
-    } else {
-      alert(data.message);
+    if (!token) {
+      setError('Invalid or missing token. Please use the correct reset link.');
+      return;
     }
 
+    try {
+      const response = await fetch("/api/auth/resetpassword", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, newPassword: password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess('Your password has been reset successfully');
+        setPassword('');
+        setConfirmPassword('');
+      } else {
+        setError(data.message || 'Failed to reset password. Please try again.');
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      setError('Something went wrong. Please try again later.');
+    }
   };
 
   return (
@@ -124,7 +135,7 @@ const ResetPassword = () => {
           <div
             className="w-full h-full bg-cover bg-center"
             style={{
-              backgroundImage: `url('/images/reset.jpeg')`,
+              backgroundImage: `url('/images/prague.jpg')`,
               borderRadius: '0 8px 8px 0',
             }}
           ></div>

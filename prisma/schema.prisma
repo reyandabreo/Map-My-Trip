@@ -15,6 +15,33 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+model Review {
+  id        String   @id @default(uuid())
+  name      String
+  review    String
+  date      String
+  time      String
+  images    String[]
+  createdAt DateTime @default(now())
+}
+
+model TravelStory {
+  id        String   @id @default(uuid())
+  name      String
+  location  String
+  date      DateTime @default(now())
+  experience String
+  tips      String?
+  category  String
+  rating    Int
+  budget    String
+  duration  String
+  images    String[]
+  likes     Int      @default(0)
+  comments  Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
 generator client {
   provider = "prisma-client-js"
 }

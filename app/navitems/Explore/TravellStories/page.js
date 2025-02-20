@@ -10,6 +10,15 @@ const TravelStories = () => {
   const [showForm, setShowForm] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedStory, setSelectedStory] = useState(null);
+  const [experience, setExperience] = useState('');
+  const [tips, setTips] = useState('');
+  const [category, setCategory] = useState('');
+  const [rating, setRating] = useState(null);
+  const [budget, setBudget] = useState('');
+  const [duration, setDuration] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [imagePreview, setImagePreview] = useState([]);
+
   const [form, setForm] = useState({
     name: '',
     location: '',
@@ -36,7 +45,7 @@ const TravelStories = () => {
       rating: 5,
       budget: "$1500",
       duration: "10 days",
-      images: ["/images/bali.jpg", "/images/bali2.jpg"],
+      images: ["/images/bali.jpg"],
       likes: 245,
       comments: 18
     },
@@ -53,44 +62,120 @@ const TravelStories = () => {
   ];
 
   useEffect(() => {
-    // Initialize with sample stories
-    setStories(initialStories);
+    const fetchStories = async () => {
+      try {
+        const res = await fetch('/api/travell-stories/index');
+        const data = await res.json();
+        setStories(data);
+      } catch (error) {
+        console.error('Error fetching stories:', error);
+        setStories(initialStories);
+      }
+    };
+    fetchStories();
   }, []);
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
-    const imageUrls = files.map(file => URL.createObjectURL(file));
-    setForm({ ...form, images: [...form.images, ...imageUrls] });
+    
+    const base64Images = await Promise.all(
+      files.map((file) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+        });
+      })
+    );
+  
+    setForm((prev) => ({
+      ...prev,
+      images: [...prev.images, ...base64Images], // Ensure images are added
+    }));
+  
+    console.log("Updated form:", form);
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newStory = {
-      ...form,
-      id: stories.length + 1,
-      likes: 0,
-      comments: 0,
-      date: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+  
+  
+ // Cleanup to prevent memory leaks
+ useEffect(() => {
+    return () => {
+       form.images?.forEach(img => URL.revokeObjectURL(img.preview));
     };
-    setStories([newStory, ...stories]);
-    setForm({
-      name: '',
-      location: '',
-      date: '',
-      experience: '',
-      tips: '',
-      category: '',
-      rating: 0,
-      budget: '',
-      duration: '',
-      images: [],
-    });
-    setShowForm(false);
+ }, [form.images]);
+ 
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const res = await fetch('/api/travell-stories/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:form.name,
+          location: form.location,
+          experience:form.experience,
+          tips:form.tips,
+          category:form.category,
+          rating: form.rating,
+          budget:form.budget,
+          duration:form.duration,
+          images: form.images || [0], // Ensure this is an array
+        }),
+      });
+      const newStory = res;
+      // Update UI immediately
+      setStories([newStory, ...stories]);
+
+      console.log('📌 Raw Response:', res);
+      
+      // Check if response is empty
+      const text = await res.text();  
+      console.log('📌 Response Text:', text);
+  
+      if (!text) {
+        throw new Error('Received empty response from server');
+      }
+  
+      const data = JSON.parse(text);
+      console.log('📌 API Response:', data);
+  
+      if (!res.ok) {
+        throw new Error(data.message || 'Failed to create travel story');
+      }
+
+     // const newStory = { ...data, images: data.images || [] };
+  
+      setStories([res, ...stories]);
+      setShowForm(false);
+    } catch (error) {
+      console.error('❌ Submission Error:', error);
+    }
+
+    // Reset form after submission
+  setForm({
+    name: '',
+    location: '',
+    date: '',
+    experience: '',
+    tips: '',
+    category: '',
+    rating: 0,
+    budget: '',
+    duration: '',
+    images: [],
+  });
+  setImagePreview([]);
+  setShowForm(false);
+
   };
 
   const toggleLike = (storyId) => {
@@ -98,6 +183,7 @@ const TravelStories = () => {
       story.id === storyId 
         ? { ...story, likes: story.likes + 1 } 
         : story
+      
     ));
   };
 
@@ -144,7 +230,7 @@ const TravelStories = () => {
           {/* Image gallery */}
           <div className="relative h-96">
             <img
-              src={story.images[0]}
+              src={story.images}
               alt={story.location}
               className="w-full h-full object-cover"
             />
@@ -170,6 +256,13 @@ const TravelStories = () => {
                 <div className="text-orange-500 font-semibold">{story.duration}</div>
                 <div className="text-gray-600">Budget: {story.budget}</div>
               </div>
+            </div>
+
+            {/* Image Preview */}
+            <div className="flex gap-2 mb-2">
+              {imagePreview.map((img, index) => (
+                <img key={index} src={img} alt="preview" className="w-16 h-16 object-cover rounded" />
+              ))}
             </div>
 
             {/* Rating */}
@@ -315,7 +408,7 @@ const TravelStories = () => {
             >
               <div className="relative h-64">
                 <img
-                  src={story.images[0]}
+                  src={story.images}
                   alt={story.location}
                   className="w-full h-full object-cover"
                 />
@@ -530,18 +623,20 @@ const TravelStories = () => {
                     onChange={handleImageUpload}
                     className="w-full"
                   />
-                  {form.images.length > 0 && (
+                  {form.images?.length > 0 && (
                     <div className="mt-4 grid grid-cols-3 gap-4">
                       {form.images.map((image, index) => (
                         <div key={index} className="relative">
                           <img
-                            src={image}
+                            src={image.preview} // ✅ Fix: use image.preview instead of image
                             alt={`Upload ${index + 1}`}
                             className="w-full h-24 object-cover rounded"
                           />
                           <button
                             type="button"
                             onClick={() => {
+                              // ✅ Fix: Prevent memory leaks by revoking URL before removing the image
+                              URL.revokeObjectURL(image.preview);
                               const newImages = form.images.filter((_, i) => i !== index);
                               setForm({ ...form, images: newImages });
                             }}
@@ -555,6 +650,7 @@ const TravelStories = () => {
                   )}
                 </div>
               </div>
+
 
               {/* Submit Buttons */}
               <div className="flex justify-end space-x-4 mt-6">

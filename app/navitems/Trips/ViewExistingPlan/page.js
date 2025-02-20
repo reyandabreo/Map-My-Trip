@@ -85,7 +85,7 @@ export default function ViewExistingPlan() {
             type="text"
             value={longitude}
             onChange={(e) => setLongitude(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500"
             placeholder="Longitude"
             required
           />
@@ -93,7 +93,7 @@ export default function ViewExistingPlan() {
 
         <button
           type="submit"
-          className="w-full py-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:ring-4 focus:ring-blue-300"
+          className="w-full py-3 bg-orange-500 text-white font-semibold rounded-md hover:bg-orange-600 focus:ring-4 focus:ring-orange-300"
         >
           Find Nearest Places
         </button>
@@ -128,7 +128,7 @@ export default function ViewExistingPlan() {
                 <div className="flex space-x-4">
                   <button
                     onClick={() => handleVisit(place.name)}
-                    className="w-24 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:ring-4 focus:ring-blue-300"
+                    className="w-24 py-2 bg-orange-500 text-white font-semibold rounded-md hover:bg-orange-600 focus:ring-4 focus:ring-orange-300"
                   >
                     {isVisited ? 'Visited' : 'Mark as Visited'}
                   </button>
