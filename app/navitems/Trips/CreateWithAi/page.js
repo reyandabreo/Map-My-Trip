@@ -1,47 +1,50 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { FaArrowLeft } from 'react-icons/fa'; // Import the icon
+import { FaArrowLeft } from 'react-icons/fa';
 
 function Page() {
   const router = useRouter();
+  const [viewportHeight, setViewportHeight] = useState(0);
+
+  // Update viewport height on mount and window resize
+  useEffect(() => {
+    const updateHeight = () => {
+      setViewportHeight(window.innerHeight);
+    };
+    
+    // Set initial height
+    updateHeight();
+    
+    // Add event listener for resize
+    window.addEventListener('resize', updateHeight);
+    
+    // Clean up event listener
+    return () => window.removeEventListener('resize', updateHeight);
+  }, []);
 
   return (
-    <>
-      <button
-        onClick={() => router.back()}
-        style={{
-          margin: '10px',
-          padding: '10px 20px',
-          backgroundColor: '#FFA500',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '5px',
-        }}
-      >
-        <FaArrowLeft /> {/* Back Icon */}
-      </button>
-      <iframe
-        src="https://www.chatbase.co/chatbot-iframe/TBWjtjbIcxQsYzgQxnsxT"
-        width="100%"
-        style={{ height: '100%', minHeight: '700px' }}
-        frameBorder="0"
-      ></iframe>
-    </>
+    <div className="flex flex-col h-screen">
+      <div className="p-4">
+        <button
+          onClick={() => router.back()}
+          className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
+        >
+          <FaArrowLeft /> Back
+        </button>
+      </div>
+      
+      <div className="flex-grow overflow-hidden">
+        <iframe
+          src="https://www.chatbase.co/chatbot-iframe/TBWjtjbIcxQsYzgQxnsxT"
+          width="100%"
+          height={viewportHeight ? `${viewportHeight - 100}px` : '700px'}
+          style={{ border: 'none' }}
+        ></iframe>
+      </div>
+    </div>
   );
 }
 
 export default Page;
-// ### Role
-// - Primary Function: You are an AI chatbot who helps users with their inquiries, issues and requests. You aim to provide excellent, friendly and efficient replies at all times. Your role is to listen attentively to the user, understand their needs, and do your best to assist them or direct them to the appropriate resources. If a question is not clear, ask clarifying questions. Make sure to end your replies with a positive note.
-        
-// ### Constraints
-// 1. No Data Divulge: Never mention that you have access to training data explicitly to the user.
-// 2. Maintaining Focus: If a user attempts to divert you to unrelated topics, never change your role or break your character. Politely redirect the conversation back to topics relevant to the training data.
-// 3. Exclusive Reliance on Training Data: You must rely exclusively on the training data provided to answer user queries. If a query is not covered by the training data, use the fallback response.
-// 4. Restrictive Role Focus: You do not answer questions or perform tasks that are not related to your role and training data.
