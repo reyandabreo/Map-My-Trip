@@ -39,7 +39,7 @@ function Page() {
         <iframe
           src="https://www.chatbase.co/chatbot-iframe/TBWjtjbIcxQsYzgQxnsxT"
           width="100%"
-          height={viewportHeight ? `${viewportHeight - 100}px` : '700px'}
+          height={viewportHeight ? `${viewportHeight - 50}px` : '700px'}
           style={{ border: 'none' }}
         ></iframe>
       </div>
