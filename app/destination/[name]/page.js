@@ -1,8 +1,9 @@
 "use client";
-import { useParams } from 'next/navigation';
+import { useParams,useRouter } from 'next/navigation';
 import React from 'react';
 import { useState } from 'react';
-import { FaCalendarDay, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaCalendarDay, FaCheckCircle, FaTimesCircle,FaArrowLeft} from 'react-icons/fa';
+
 
 const destinationData = {
   'seychelles-island': {
@@ -363,6 +364,7 @@ const destinationData = {
 };
 
 const ItineraryTracker = ({ itinerary }) => {
+  const router = useRouter();
   const [status, setStatus] = useState(
     Object.keys(itinerary).reduce((acc, day) => {
       acc[day] = {
@@ -387,6 +389,14 @@ const ItineraryTracker = ({ itinerary }) => {
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-gray-100 rounded-lg shadow-lg">
+      {/* Back Button */}
+      <button
+        onClick={() => router.back()}
+        className="absolute top-4 left-4 flex items-center space-x-2 px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors duration-300 shadow-md font-medium"
+      >
+        <FaArrowLeft className="mr-2" /> Back
+      </button>
+
       <div className="relative border-l-4 border-blue-500 pl-6 space-y-6">
         {Object.keys(itinerary).map((day, dayIndex) => (
           <div key={day} className="relative">
