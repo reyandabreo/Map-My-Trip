@@ -1,12 +1,14 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { FaHome, FaHotel, FaUtensils, FaPlane, FaHouseUser } from "react-icons/fa";
 import { MdLocalActivity } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 const SearchBar = () => {
-  const [inputValue, setInputValue] = useState(""); 
-  const [suggestions, setSuggestions] = useState([]); 
-  const [activeCategory, setActiveCategory] = useState("all"); 
+  const router = useRouter();
+  const [inputValue, setInputValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [activeCategory, setActiveCategory] = useState("all");
   const [budget, setBudget] = useState("");
   const [people, setPeople] = useState(1);
   const [startDate, setStartDate] = useState("");
@@ -19,7 +21,7 @@ const SearchBar = () => {
       redirect: "follow",
     };
 
-    const API_KEY = "AlzaSyIalcONhypW28MsJ2b6OGhMVBGvschtgJe"; 
+    const API_KEY = "AlzaSyIalcONhypW28MsJ2b6OGhMVBGvschtgJe";
     const apiUrl = `https://maps.gomaps.pro/maps/api/place/autocomplete/json?input=${query}&components=country:us|country:pr&language=en&key=${API_KEY}`;
 
     fetch(apiUrl, requestOptions)
@@ -36,9 +38,9 @@ const SearchBar = () => {
     const value = e.target.value;
     setInputValue(value);
     if (value.length > 2) {
-      fetchSuggestions(value); 
+      fetchSuggestions(value);
     } else {
-      setSuggestions([]); 
+      setSuggestions([]);
     }
   };
 
@@ -48,7 +50,43 @@ const SearchBar = () => {
 
   const handleSuggestionClick = (suggestion) => {
     setInputValue(suggestion.description);
-    setSuggestions([]); 
+    setSuggestions([]);
+  };
+
+  const handleSubmit = async () => {
+    const formData = {
+      budget,
+      people,
+      startDate,
+      endDate,
+      place: inputValue,
+    };
+  
+    try {
+      // Send the form data to the backend API
+      const response = await fetch("/api/auto-create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log("API Response:", data); // Debugging log
+  
+        // Ensure itinerary is a string
+        const itinerary = typeof data.itinerary === "string" ? data.itinerary : JSON.stringify(data.itinerary);
+  
+        // Redirect to the itinerary page with the generated itinerary
+        router.push(`/itinerary?itinerary=${encodeURIComponent(itinerary)}`);
+      } else {
+        console.error("Error generating itinerary");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -171,7 +209,10 @@ const SearchBar = () => {
           onChange={handleInputChange}
           className="flex-grow px-4 py-3 sm:px-2 md:px-6 bg-gray-100 border border-gray-300 rounded-l-full text-gray-800 focus:ring-2 focus:ring-orange-500 outline-none transition-all"
         />
-        <button className="bg-orange-500 text-white px-4 py-3 sm:px-2 md:px-6 rounded-r-full hover:bg-orange-600 transition-all">
+        <button
+          className="bg-orange-500 text-white px-4 py-3 sm:px-2 md:px-6 rounded-r-full hover:bg-orange-600 transition-all"
+          onClick={handleSubmit} // Updated onClick handler
+        >
           Search
         </button>
 
