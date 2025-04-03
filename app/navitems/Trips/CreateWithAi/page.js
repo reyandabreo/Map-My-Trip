@@ -28,9 +28,38 @@ const CreateWithAi = () => {
     // Generate a more dynamic itinerary based on user preferences
     const generatedItinerary = generateItinerary(formData, diffDays);
     
+    // Create a new object that includes budget and travel style
+    const fullItineraryData = {
+      destination: formData.destination,
+      startDate: formData.startDate,
+      endDate: formData.endDate,
+      budget: formData.budget,
+      travelStyle: formData.travelStyle,
+      itinerary: generatedItinerary
+    };
+    
+    // Retrieve existing saved trips from local storage
+    const existingTrips = JSON.parse(localStorage.getItem('savedItineraries') || '[]');
+    
+    // Check if trip already exists to avoid duplicates
+    const isDuplicate = existingTrips.some(
+      trip => trip.destination === fullItineraryData.destination && 
+              JSON.stringify(trip.itinerary) === JSON.stringify(fullItineraryData.itinerary)
+    );
+
+    if (!isDuplicate) {
+      // Add new trip
+      const updatedTrips = [...existingTrips, {
+        ...fullItineraryData,
+        id: Date.now(),
+        savedAt: new Date().toISOString()
+      }];
+      localStorage.setItem('savedItineraries', JSON.stringify(updatedTrips));
+    }
+    
     // Encode the itinerary and navigate to the itinerary page
     const encodedItinerary = encodeURIComponent(JSON.stringify(generatedItinerary));
-    router.push(`/itinerary?itinerary=${encodedItinerary}`);
+    router.push(`/itinerary?itinerary=${encodedItinerary}&budget=${formData.budget}&travelStyle=${formData.travelStyle}`);
   };
 
   // Generate location names based on destination and budget
@@ -634,3 +663,4 @@ const CreateWithAi = () => {
 };
 
 export default CreateWithAi;
+
