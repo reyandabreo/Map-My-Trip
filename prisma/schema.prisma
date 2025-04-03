@@ -42,6 +42,29 @@ model TravelStory {
   createdAt DateTime @default(now())
 }
 
+model Trip {
+  id          String   @id @default(uuid())
+  name        String
+  startDate   DateTime
+  endDate     DateTime
+  destination String
+  travelers   Int
+  tripStyle   String
+  budget      String
+  activities  Activity[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Activity {
+  id        String   @id @default(uuid())
+  name      String
+  time      String
+  location  String
+  tripId    String
+  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+}
+
 generator client {
   provider = "prisma-client-js"
 }
