@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { useSearchParams,useRouter } from "next/navigation";
-import { FaMapMarkerAlt, FaFlag, FaEdit, FaSave, FaTimes, FaTrophy, FaCheck, FaCamera, FaMapPin, FaCompass } from "react-icons/fa";
+import { FaMapMarkerAlt, FaFlag, FaEdit, FaSave, FaTimes, FaTrophy, FaCheck, FaCamera, FaMapPin, FaCompass, FaMoneyBillWave } from "react-icons/fa";
 import { IoMdPerson, IoMdAirplane, IoMdRestaurant, IoMdBed } from "react-icons/io";
 import { MdLocationOn, MdDirectionsRun, MdOutlineLocationCity, MdHiking, MdBeachAccess } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
@@ -31,6 +31,7 @@ const ItineraryComponent = () => {
   const [memories, setMemories] = useState({}); // For storing photos or notes
   const personRef = useRef(null);
   const timelineRef = useRef(null);
+  const [budget, setBudget] = useState('medium');
 
   // Activity types with corresponding icons
   const activityIcons = {
@@ -50,25 +51,28 @@ const ItineraryComponent = () => {
       primaryColor: "from-green-500 to-emerald-700",
       secondaryColor: "bg-amber-500",
       accentColor: "bg-orange-400",
-      textColor: "text-emerald-800",
+      textColor: "text-emerald-100",
       startColor: "from-green-500 to-green-700",
-      finishColor: "from-amber-500 to-amber-700"
+      finishColor: "from-amber-500 to-amber-700",
+      backgroundGradient: "bg-gradient-to-br from-green-800 to-emerald-900"
     },
     beach: {
       primaryColor: "from-blue-400 to-cyan-600",
       secondaryColor: "bg-yellow-400",
       accentColor: "bg-orange-300",
-      textColor: "text-cyan-800",
+      textColor: "text-cyan-100",
       startColor: "from-blue-400 to-blue-600",
-      finishColor: "from-orange-400 to-orange-600"
+      finishColor: "from-orange-400 to-orange-600",
+      backgroundGradient: "bg-gradient-to-br from-blue-800 to-cyan-900"
     },
     urban: {
       primaryColor: "from-indigo-500 to-purple-700",
       secondaryColor: "bg-slate-600",
       accentColor: "bg-pink-400",
-      textColor: "text-indigo-800",
+      textColor: "text-indigo-100",
       startColor: "from-slate-600 to-slate-800",
-      finishColor: "from-purple-500 to-purple-700"
+      finishColor: "from-purple-500 to-purple-700",
+      backgroundGradient: "bg-gradient-to-br from-indigo-800 to-purple-900"
     }
   };
 
@@ -76,6 +80,9 @@ const ItineraryComponent = () => {
 
   useEffect(() => {
     const itineraryParam = searchParams.get("itinerary");
+    const budgetParam = searchParams.get("budget");
+    const travelStyleParam = searchParams.get("travelStyle");
+
     if (itineraryParam) {
       try {
         const decodedItinerary = decodeURIComponent(itineraryParam);
@@ -92,6 +99,10 @@ const ItineraryComponent = () => {
         }));
         
         setItinerary(enhancedItinerary);
+        
+        // Extract budget if available from URL, otherwise default to 'medium'
+        const extractedBudget = budgetParam || 'medium';
+        setBudget(extractedBudget);
         
         // Initialize completed activities tracking
         const initialCompleted = {};
@@ -282,20 +293,69 @@ const ItineraryComponent = () => {
     setTheme(newTheme);
   };
 
-  return (
+  // Save trip to local storage
+  const saveTrip = () => {
+    // Prepare trip data
+    const destination = itinerary[0]?.activities[0]?.description || 'Unknown Destination';
+    const tripToSave = {
+      id: Date.now(), // Unique identifier
+      destination: destination,
+      startDate: itinerary[0]?.activities[0]?.time || 'Not Specified',
+      endDate: itinerary[itinerary.length - 1]?.activities[itinerary[itinerary.length - 1].activities.length - 1]?.time || 'Not Specified',
+      itinerary: itinerary,
+      savedAt: new Date().toISOString()
+    };
+
+    // Retrieve existing saved trips from local storage
+    const existingTrips = JSON.parse(localStorage.getItem('savedItineraries') || '[]');
     
-    <div className={`min-h-screen bg-gradient-to-b ${currentTheme.primaryColor} py-10 px-4 transition-colors duration-1000`}>
-       {/* Back Button */}
-       <button 
+    // Check if trip already exists to avoid duplicates
+    const isDuplicate = existingTrips.some(
+      trip => trip.destination === tripToSave.destination && 
+              JSON.stringify(trip.itinerary) === JSON.stringify(tripToSave.itinerary)
+    );
+
+    if (!isDuplicate) {
+      // Add new trip
+      const updatedTrips = [...existingTrips, tripToSave];
+      localStorage.setItem('savedItineraries', JSON.stringify(updatedTrips));
+
+      // Show success notification
+      alert(`Trip to ${destination} saved successfully! You can view it in 'View Existing Plans'.`);
+      
+      // Optional: Navigate to View Existing Plans
+      router.push('/navitems/Trips/ViewExistingPlan');
+    } else {
+      alert('This trip is already saved in your existing plans.');
+    }
+  };
+
+  return (
+    <div className={`min-h-screen ${currentTheme.backgroundGradient} relative`}>
+      {/* Existing back button */}
+      <button 
         onClick={() => router.back()} 
-        className="absolute top-4 left-4 flex items-center text-white mb-4 hover:text-orange-900 z-50"
+        className="absolute top-4 left-4 flex items-center text-white mb-4 hover:text-opacity-80 z-50"
       >
         <ArrowLeft className="w-6 h-6 mr-2" />
         <span className="text-lg font-medium">Back</span>
       </button>
+
+      {/* Save Trip Button */}
+      <button 
+        onClick={saveTrip}
+        className="fixed top-4 right-4 flex items-center 
+        bg-green-500 text-white px-4 py-2 rounded-lg 
+        hover:bg-green-600 transition-colors z-50 
+        shadow-md hover:shadow-lg"
+      >
+        <FaSave className="mr-2" />
+        Save Trip
+      </button>
+
       <div className="max-w-6xl mx-auto">
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-extrabold text-white mb-3 tracking-tight shadow-text">
+          <h1 className={`text-4xl font-extrabold text-white mb-3 tracking-tight shadow-text ${currentTheme.textColor}`}>
             Your Adventure Journey
           </h1>
           <p className="text-white text-opacity-90 mb-6 text-lg">Follow your path from start to finish</p>
@@ -336,6 +396,14 @@ const ItineraryComponent = () => {
               >
                 <span className="flex items-center"><MdOutlineLocationCity className="mr-1" /> Urban</span>
               </button>
+            </div>
+
+            {/* Budget Display */}
+            <div className="flex bg-white bg-opacity-20 backdrop-blur-lg rounded-full p-1 shadow-lg">
+              <div className="px-3 py-2 rounded-full text-white flex items-center">
+                <FaMoneyBillWave className="mr-2 text-green-400" />
+                {budget.charAt(0).toUpperCase() + budget.slice(1)} Budget
+              </div>
             </div>
           </div>
           
@@ -495,7 +563,7 @@ const ItineraryComponent = () => {
                               {isCurrent && (
                                 <div 
                                   ref={personRef}
-                                  className="absolute -right-8 transform transition-transform duration-500"
+                                  className="absolute -right-12 transform transition-transform duration-500 z-10"
                                 >
                                   <motion.div 
                                     className={`${currentTheme.secondaryColor} p-2 rounded-full shadow-lg`}
@@ -633,6 +701,18 @@ const ItineraryComponent = () => {
                                       </button>
                                     </div>
                                   </div>
+                                  
+                                  {/* Price information */}
+                                  {activity.price && (
+                                    <div className="mt-2 p-2 bg-green-50 rounded-lg text-green-700 text-sm font-medium">
+                                      <span className="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        Estimated Cost: {activity.price}
+                                      </span>
+                                    </div>
+                                  )}
                                   
                                   {activity.notes && (
                                     <div className="mt-3 p-3 bg-blue-50 rounded-lg text-gray-700 text-sm">
