@@ -68,6 +68,7 @@ const TravelSearch = () => {
     { image: "/images/grand-canyon.jpg", name: "Grand Canyon", location: "USA", rating: "4.9", category: "Nature" },
     { image: "/images/kruger.jpg", name: "Kruger National Park", location: "South Africa", rating: "4.6", category: "Park" },
     { image: "/images/niagara.jpg", name: "Niagara Falls", location: "Canada", rating: "4.8", category: "Nature" },
+    { image: "/images/Lotus-temple.png", name: "Lotus Temple", location: "Delhi, India", rating: "4.8", category: "Recommended" },
   ];
 
   // Filter destinations based on the active category
