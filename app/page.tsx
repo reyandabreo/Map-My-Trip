@@ -8,12 +8,14 @@ import Destination from '../components/Destination';
 import WhyChooseUs from '../components/WhyChooseUs';
 import UserReviews from '../components/UserReviews';
 import Faqs from '../components/Faqs';
+import Chatbot from '../components/Chatbot'
 import Footer from '../components/Footer';
 
 const HomePage = () => {
   return (
     <div>
       <Hero />
+      <Chatbot/>
       <PopularPlaces />
       <Stats />
       <Destination />

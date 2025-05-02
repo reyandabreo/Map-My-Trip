@@ -8,7 +8,6 @@ import { AiOutlineArrowRight as ArrowRight } from 'react-icons/ai'; // Import th
 const slugify = (name) => {
   return name.toLowerCase().replace(/\s+/g, '-');
 };
-
 // PopularPlaces component
 const PopularPlaces = () => {
   const places = [
