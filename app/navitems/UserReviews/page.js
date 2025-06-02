@@ -1,17 +1,17 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation"; // Use next/navigation for app directory
-import { Star, ArrowLeft, User, Clock, Image as ImageIcon, X, Upload } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Star, Clock} from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const UserReviewPage = () => {
   const router = useRouter(); // Initialize the router
   const [reviews, setReviews] = useState([]); // State to hold reviews
-  const [name, setName] = useState(""); // State for user name
-  const [review, setReview] = useState(""); // State for review content
+  //const [name, setName] = useState(""); // State for user name
+  //const [review, setReview] = useState(""); // State for review content
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
-  const [images, setImages] = useState([]); // State to store uploaded images
+  //const [images, setImages] = useState([]); // State to store uploaded images
   const [newReview, setNewReview] = useState({
     name: '',
     review: '',

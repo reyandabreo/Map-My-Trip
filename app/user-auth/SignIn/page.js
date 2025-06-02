@@ -41,7 +41,7 @@ function Login() {
       <div className="bg-white rounded-lg shadow-lg max-w-4xl w-full flex" style={{ margin: "20px", maxHeight: "90vh" }}>
         <div className="w-1/2 p-10 overflow-y-auto">
           <div className="mb-6 text-sm text-gray-600">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <a href="/user-auth/SignUp" className="text-orange-600 hover:underline">
               Sign Up
             </a>
@@ -96,7 +96,7 @@ function Login() {
                 onChange={(e) => setIsTermsChecked(e.target.checked)}
               />
               <label htmlFor="terms" className="text-sm text-gray-600">
-                I’ve read and agree with{" "}
+                I&apos;ve read and agree with{" "}
                 <a href="#" className="text-orange-600 hover:underline">
                   Terms of Service
                 </a>{" "}

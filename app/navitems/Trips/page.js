@@ -41,7 +41,7 @@ const Trips = () => {
           Choose your trip planning option
         </h2>
         <p className="text-gray-600 text-lg max-w-3xl mx-auto mb-8">
-          Whether you're looking to view existing plans, create new ones, or let AI assist you, we have the tools you need.
+          Whether you&apos;re looking to view existing plans, create new ones, or let AI assist you, we have the tools you need.
         </p>
         
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">

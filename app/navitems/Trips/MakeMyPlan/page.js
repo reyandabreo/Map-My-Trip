@@ -21,7 +21,7 @@ const MakeMyPlan = () => {
   const [tripStyle, setTripStyle] = useState('');
   
   // New states for saving and publishing
-  const [isPublic, setIsPublic] = useState(false);
+  //const [isPublic, setIsPublic] = useState(false);
   const [publishError, setPublishError] = useState('');
 
   const tripStyles = [
@@ -319,7 +319,7 @@ const MakeMyPlan = () => {
       case 1:
         return (
           <div className="space-y-6 animate-fade-in">
-            <h2 className="text-2xl font-bold mb-6">Let's Start with the Basics! ✈️</h2>
+            <h2 className="text-2xl font-bold mb-6">Let&apos;s Start with the Basics! ✈️</h2>
             
             <div className="space-y-4">
               <div>
@@ -396,7 +396,7 @@ const MakeMyPlan = () => {
       case 2:
         return (
           <div className="space-y-6 animate-fade-in">
-            <h2 className="text-2xl font-bold mb-6">What's Your Travel Style? 🎨</h2>
+            <h2 className="text-2xl font-bold mb-6">What&apos;s Your Travel Style? 🎨</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {tripStyles.map((style) => (
@@ -466,7 +466,7 @@ const MakeMyPlan = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <label className="block text-gray-700 mb-2">What's your budget range? 💰</label>
+              <label className="block text-gray-700 mb-2">What&apos;s your budget range? 💰</label>
               <select
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
@@ -502,7 +502,7 @@ const MakeMyPlan = () => {
               
               {recommendations.length === 0 ? (
                 <div className="text-center py-4 text-gray-500">
-                  <p>No recommendations yet. Click 'Refresh Recommendations'.</p>
+                  <p>No recommendations yet. Click &apos;Refresh Recommendations&apos;.</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

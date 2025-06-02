@@ -60,7 +60,7 @@ const ForgotPassword = () => {
           
           <h2 className="text-3xl font-bold mb-8">Forgot Password?</h2>
           <p className="text-gray-600 mb-8">
-            Don't worry! It happens. Please enter the email address associated with your account.
+            Don&apos;t worry! It happens. Please enter the email address associated with your account.
           </p>
           
           <form onSubmit={handleSubmit}>

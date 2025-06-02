@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Shield, MapPin, MessageCircle, TvMinimal } from 'lucide-react';
+import { MapPin, MessageCircle, TvMinimal } from 'lucide-react';
 
 const Feature = ({ icon, title, description }) => (
   <div className="flex items-start mb-6">

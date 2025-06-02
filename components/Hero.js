@@ -155,7 +155,7 @@ const HeroSection = ({ router }) => (
     <div className="relative flex flex-col justify-center items-center h-full text-center text-white p-4">
       <h1 className="text-3xl md:text-5xl font-bold mb-4">Unlock Your Travel Dreams With MapMyTrip!</h1>
       
-      <p className="text-lg md:text-xl mb-6 md:mb-8">Discover the world's most adventurous nature, life is too short for a trip.</p>
+      <p className="text-lg md:text-xl mb-6 md:mb-8">Discover the world&apos;s most adventurous nature, life is too short for a trip.</p>
       <button
         type="button"
         className="bg-orange-500 text-white px-4 py-2 md:px-6 md:py-3 rounded-full flex items-center"

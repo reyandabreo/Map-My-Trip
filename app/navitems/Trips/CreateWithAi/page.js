@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { FaArrowLeft, FaSearch, FaPlane, FaUsers, FaCalendarAlt, FaWallet, FaStar } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
