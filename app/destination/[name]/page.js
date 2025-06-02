@@ -137,7 +137,7 @@ const destinationData = {
       day3: {
         morning: "09:00 AM - Snorkeling in Nusa Penida.",
         afternoon: "12:30 PM - Spa and wellness retreat.",
-        evening: "05:00 PM - Explore Bali’s night markets.",
+        evening: "05:00 PM - Explore Bali's night markets.",
         night: "08:00 PM - Departure or extended stay."
       }
     }
@@ -308,7 +308,7 @@ const destinationData = {
   },
 
   'kruger-national-park': {
-    description: "Kruger National Park is one of Africa’s largest game reserves, offering incredible safari experiences and wildlife viewing.",
+    description: "Kruger National Park is one of Africa's largest game reserves, offering incredible safari experiences and wildlife viewing.",
     activities: ["Safari", "Wildlife Viewing", "Photography"],
     image: "/images/kruger.jpg",
     location: "South Africa",
@@ -358,6 +358,33 @@ const destinationData = {
         afternoon: "12:30 PM - Explore Clifton Hill attractions.",
         evening: "05:00 PM - Scenic helicopter ride over the falls.",
         night: "08:00 PM - Departure or extended stay."
+      }
+    }
+  },
+  'lotus-temple': {
+    description: "The Lotus Temple, located in Delhi, India, is one of the most visited buildings in the world. This architectural marvel, completed in 1986, is shaped like a lotus flower with 27 free-standing marble-clad 'petals' arranged in clusters of three to form nine sides. As a Bahá'í House of Worship, it welcomes people of all faiths to pray and meditate in its serene atmosphere. The temple's design symbolizes peace, purity, and unity, while its nine doors open to a central hall that can accommodate up to 2,500 people. The surrounding gardens and pools enhance the temple's beauty, making it a perfect place for reflection and spiritual connection.",
+    activities: ["Meditation", "Prayer", "Photography", "Garden Walks", "Architectural Tour"],
+    image: "/images/Lotus-temple.png",
+    location: "Delhi, India",
+    rating: "4.8",
+    itinerary: {
+      day1: {
+        morning: "09:00 AM - Arrival and temple orientation tour",
+        afternoon: "12:30 PM - Explore the surrounding gardens and pools",
+        evening: "04:30 PM - Attend a prayer session",
+        night: "07:30 PM - Evening meditation session"
+      },
+      day2: {
+        morning: "08:30 AM - Sunrise photography session",
+        afternoon: "12:30 PM - Learn about Bahá'í architecture and history",
+        evening: "04:30 PM - Guided meditation in the prayer hall",
+        night: "07:30 PM - Cultural program and music"
+      },
+      day3: {
+        morning: "09:00 AM - Early morning prayer session",
+        afternoon: "12:30 PM - Visit the information center and library",
+        evening: "04:30 PM - Final meditation and reflection",
+        night: "07:30 PM - Departure or extended stay"
       }
     }
   },

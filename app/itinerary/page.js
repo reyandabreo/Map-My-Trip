@@ -226,14 +226,17 @@ const ItineraryComponent = () => {
   // Add a memory (photo or note) to an activity
   const addMemory = (dayIndex, activityIndex, memoryType, content) => {
     const activityKey = `${dayIndex}-${activityIndex}`;
-    
+  
     setMemories({
       ...memories,
       [activityKey]: {
         ...(memories[activityKey] || {}),
-        [memoryType]: content
-      }
+        [memoryType]: content,
+      },
     });
+  
+    // Redirect to the TravelStories page
+    router.push('/navitems/Explore/TravellStories');
   };
 
   // Trigger animation for completion
@@ -737,11 +740,11 @@ const ItineraryComponent = () => {
                                     </div>
                                   )}
                                   
-                               {/* Add memory button */}
-                               {isCompleted && !activityMemory && (
+                                  {/* Add memory button */}
+                                  {isCompleted && !activityMemory && (
                                     <div className="mt-4 pt-4 border-t border-gray-200">
-                                      <button 
-                                        onClick={() => addMemory(dayIndex, activityIndex, 'note', 'Had a great time here!')}
+                                      <button
+                                        onClick={() => addMemory(dayIndex, actIndex, 'note', 'Had a great time here!')}
                                         className="w-full py-2 bg-amber-100 text-amber-700 rounded-lg flex items-center justify-center hover:bg-amber-200 transition-colors"
                                       >
                                         <FaCamera className="mr-2" /> Add Memory

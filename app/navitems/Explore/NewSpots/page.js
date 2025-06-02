@@ -1,8 +1,12 @@
 'use client';
 
+<<<<<<< HEAD
 // import { DistanceMatrixService } from '@react-google-maps/api';
 import React from 'react';
 import { useState } from 'react';
+=======
+import React, { useState } from 'react';
+>>>>>>> 066898405327ec0375057294925462c34da2a3ad
 
 export default function ViewExistingPlan() {
   const [latitude, setLatitude] = useState('');
@@ -10,8 +14,12 @@ export default function ViewExistingPlan() {
   const [placeName, setPlaceName] = useState('');
   const [places, setPlaces] = useState([]);
   const [error, setError] = useState(null);
+<<<<<<< HEAD
   const [visitedPlaces, setVisitedPlaces] = useState(new Set()); // Track visited places
   const [activeStep, setActiveStep] = useState(1); // Track the active step
+=======
+  const [visitedPlaces, setVisitedPlaces] = useState(new Set());
+>>>>>>> 066898405327ec0375057294925462c34da2a3ad
 
   const findNearestPlaces = async (e) => {
     e.preventDefault();
@@ -29,8 +37,12 @@ export default function ViewExistingPlan() {
       }
 
       const data = await response.json();
+<<<<<<< HEAD
       setPlaces(data);
       setActiveStep(1); // Reset to first step when new data is fetched
+=======
+      setPlaces(data); // Assuming `data` includes distance for each place
+>>>>>>> 066898405327ec0375057294925462c34da2a3ad
     } catch (err) {
       console.error('Error fetching nearest places:', err.message);
       setError(err.message);
@@ -124,7 +136,16 @@ export default function ViewExistingPlan() {
 
               {/* Place Card */}
               <div className="flex items-center justify-between bg-white p-4 rounded-lg shadow-md mb-6">
+<<<<<<< HEAD
                 <div className="text-sm font-medium text-gray-800">{place.name}</div>
+=======
+                <div>
+                  <div className="text-sm font-medium text-gray-800">{place.name}</div>
+                  <div className="text-xs text-gray-500">
+                    Distance: {place.distance ? `${place.distance} km` : 'N/A'}
+                  </div>
+                </div>
+>>>>>>> 066898405327ec0375057294925462c34da2a3ad
                 <div className="flex space-x-4">
                   <button
                     onClick={() => handleVisit(place.name)}
@@ -146,6 +167,7 @@ export default function ViewExistingPlan() {
       </div>
     </div>
   );
+<<<<<<< HEAD
 }
 
 
@@ -198,3 +220,6 @@ export default function ViewExistingPlan() {
 }
 
 */
+=======
+}
+>>>>>>> 066898405327ec0375057294925462c34da2a3ad
