@@ -9,6 +9,7 @@ export async function GET() {
     });
     return NextResponse.json(trips, { status: 200 });
   } catch (error) {
+    alert(error);
     return NextResponse.json({ error: 'Error fetching trips' }, { status: 500 });
   }
 }
@@ -22,6 +23,7 @@ export async function POST(req) {
     });
     return NextResponse.json(newTrip, { status: 201 });
   } catch (error) {
+    alert(error);
     return NextResponse.json({ error: 'Error creating trip' }, { status: 500 });
   }
 }
@@ -33,6 +35,7 @@ export async function DELETE(req) {
     await prisma.trip.delete({ where: { id } });
     return NextResponse.json({ message: 'Trip deleted successfully' }, { status: 200 });
   } catch (error) {
+    alert(error);
     return NextResponse.json({ error: 'Error deleting trip' }, { status: 500 });
   }
 }

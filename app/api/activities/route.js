@@ -14,6 +14,7 @@ export async function GET(req) {
     const activities = await prisma.activity.findMany({ where: { tripId } });
     return NextResponse.json(activities, { status: 200 });
   } catch (error) {
+    alert(error);
     return NextResponse.json({ error: 'Error fetching activities' }, { status: 500 });
   }
 }
@@ -27,6 +28,7 @@ export async function POST(req) {
     });
     return NextResponse.json(newActivity, { status: 201 });
   } catch (error) {
+    alert(error);
     return NextResponse.json({ error: 'Error adding activity' }, { status: 500 });
   }
 }

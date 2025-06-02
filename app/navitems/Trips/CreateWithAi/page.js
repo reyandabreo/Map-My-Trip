@@ -227,7 +227,7 @@ const CreateWithAI = () => {
             <div className="h-1 w-32 bg-blue-400 mx-auto rounded-full transform -rotate-3"></div>
             <h2 className="text-xl font-medium text-blue-500 mt-4 mb-2">Create Your Trip with AI</h2>
             <p className="text-md text-blue-600 max-w-md mx-auto">
-              Fill in the details below, and we'll craft a personalized travel plan just for you.
+              Fill in the details below, and we&apos;ll craft a personalized travel plan just for you.
             </p>
           </div>
           
