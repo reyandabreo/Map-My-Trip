@@ -2,22 +2,24 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
-  }
-
+export async function POST(request) {
   try {
-    const { id } = req.body;
+    const { id } = await request.json();
 
     const updatedStory = await prisma.travelStory.update({
       where: { id },
       data: { likes: { increment: 1 } },
     });
 
-    res.status(200).json(updatedStory);
+    return new Response(JSON.stringify(updatedStory), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error updating likes' });
+    return new Response(JSON.stringify({ message: 'Error updating likes' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
