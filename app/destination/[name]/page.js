@@ -1,6 +1,6 @@
 "use client";
 import { useParams,useRouter } from 'next/navigation';
-import React from 'react';
+//import React from 'react';
 import { useState } from 'react';
 import { FaCalendarDay, FaCheckCircle, FaTimesCircle,FaArrowLeft} from 'react-icons/fa';
 
@@ -398,7 +398,7 @@ const ItineraryTracker = ({ itinerary }) => {
       </button>
 
       <div className="relative border-l-4 border-blue-500 pl-6 space-y-6">
-        {Object.keys(itinerary).map((day, dayIndex) => (
+        {Object.keys(itinerary).map((day) => (
           <div key={day} className="relative">
             <div className="absolute -left-8 w-6 h-6 bg-blue-500 rounded-full border-4 border-white flex items-center justify-center">
               <FaCalendarDay className="text-white text-sm" />
@@ -407,7 +407,7 @@ const ItineraryTracker = ({ itinerary }) => {
               <FaCalendarDay className="text-blue-500" /> {day.replace('-', ' ')}
             </h2>
             <div className="ml-6 border-l-2 border-gray-400 pl-4 mt-2 space-y-4">
-              {Object.keys(itinerary[day]).map((time, index) => (
+              {Object.keys(itinerary[day]).map((time) => (
                 <div key={`${day}-${time}`} className="bg-white p-4 rounded-lg shadow-md border border-gray-300 relative flex flex-col items-start">
                   <div className="absolute -left-6 w-4 h-4 bg-gray-400 rounded-full"></div>
                   <span className="block text-gray-800 font-semibold text-lg">{itinerary[day][time]}</span>

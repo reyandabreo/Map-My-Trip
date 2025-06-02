@@ -1,5 +1,6 @@
 
-const { Client } = require('pg');
+import { Client } from 'pg';
+// filepath: /run/media/reyandabreo/Projects/Mini_Project/Map-My-Trip/app/api/find-nearest-places/route.js
 
 function haversine(lat1, lon1, lat2, lon2) {
   const toRad = (value) => (value * Math.PI) / 180;
@@ -22,7 +23,7 @@ export async function POST(req) {
     host: "localhost",
     user: "postgres",
     port: 5432,
-    password: "",
+    password: "postgres123",
     database: "places",
   });
 

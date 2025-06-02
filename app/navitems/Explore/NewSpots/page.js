@@ -1,224 +1,200 @@
-// app/navitems/Explore/NewSpots/page.js
-"use client"; 
-import React from "react";
-import { useRouter } from "next/navigation";
-import { MapPin } from "lucide-react";
-import Link from "next/link";
+'use client';
 
-// Helper function to create a URL-friendly slug
-const slugify = (name) => {
-  return name.toLowerCase().replace(/\s+/g, '-');
-};
+// import { DistanceMatrixService } from '@react-google-maps/api';
+import React from 'react';
+import { useState } from 'react';
 
-const DestinationCard = ({ image, name, location, rating }) => (
-  <Link href={`/destination/${slugify(name)}`} passHref>
-    <div className="relative rounded-lg overflow-hidden shadow-lg transition-shadow hover:shadow-xl">
-      <img src={image} alt={name} className="w-full h-48 object-cover" />
-      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
-        <h3 className="text-white font-semibold">{name}</h3>
-        <div className="flex justify-between items-center">
-          <p className="text-white text-sm flex items-center">
-            <MapPin className="mr-1" size={14} />
-            {location}
-          </p>
-          <span className="bg-white text-gray-800 px-2 py-1 rounded-full text-sm">{rating}</span>
-        </div>
-      </div>
-    </div>
-  </Link>
-);
+export default function ViewExistingPlan() {
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
+  const [placeName, setPlaceName] = useState('');
+  const [places, setPlaces] = useState([]);
+  const [error, setError] = useState(null);
+  const [visitedPlaces, setVisitedPlaces] = useState(new Set()); // Track visited places
+  const [activeStep, setActiveStep] = useState(1); // Track the active step
 
-const NewSpots = () => {
-  const router = useRouter(); // Initialize useRouter
+  const findNearestPlaces = async (e) => {
+    e.preventDefault();
+    setError(null);
 
-  const popularSpots = [
-    {
-      id: 1,
-      name: "Bora Bora, French Polynesia",
-      description: "A stunning island known for its crystal-clear waters, luxury resorts, and coral reefs. Perfect for honeymooners and beach lovers.",
-      image: "/images/bora-bora.jpg",
-      location: "Polynesia",
-      rating: "4.8",
-    },
-    {
-      id: 2,
-      name: "Kyoto, Japan",
-      description: "A cultural hub with breathtaking temples, gardens, and the beautiful Arashiyama Bamboo Forest. A must-visit for history enthusiasts.",
-      image: "/images/place_3.jpg",
-      location: "Japan",
-      rating: "4.7",
-    },
-    {
-      id: 3,
-      name: "Santorini, Greece",
-      description: "Famous for its white-washed buildings, blue domes, and beautiful sunsets over the Aegean Sea.",
-      image: "/images/santorini.jpg",
-      location: "Greece",
-      rating: "4.6",
-    },
-    {
-      id: 4,
-      name: "Maui, Hawaii",
-      description: "Known for its beaches, scenic drives, and Haleakalā National Park with a dormant volcano.",
-      image: "/images/maui.jpg",
-      location: "Hawaii, USA",
-      rating: "4.9",
-    },
-    {
-      id: 5,
-      name: "Paris, France",
-      description: "The City of Light, known for its art, fashion, and iconic landmarks like the Eiffel Tower and Louvre Museum.",
-      image: "/images/place_2.jpg",
-      location: "France",
-      rating: "4.7",
-    },
-    {
-      id: 6,
-      name: "Sydney, Australia",
-      description: "Home to the Sydney Opera House and beautiful beaches, it's a vibrant city with a rich cultural scene.",
-      image: "/images/place_5.jpg",
-      location: "Australia",
-      rating: "4.6",
-    },
-    {
-      id: 7,
-      name: "Rome, Italy",
-      description: "The Eternal City, famous for its nearly 3,000 years of globally influential art, architecture, and culture.",
-      image: "/images/place_7.jpg",
-      location: "Italy",
-      rating: "4.8",
-    },
-    {
-      id: 8,
-      name: "New York City, USA",
-      description: "The Big Apple, known for its iconic skyline, Central Park, and a melting pot of cultures.",
-      image: "/images/new-york.jpg",
-      location: "USA",
-      rating: "4.9",
-    },
-    {
-      id: 9,
-      name: "Barcelona, Spain",
-      description: "Famous for its unique architecture by Antoni Gaudí, vibrant culture, and beautiful beaches.",
-      image: "/images/seychelles.jpg",
-      location: "Spain",
-      rating: "4.7",
-    },
-    {
-      id: 10,
-      name: "Iceland",
-      description: "Known for its stunning natural beauty, including geysers, hot springs, and the Northern Lights.",
-      image: "/images/fiji.jpg",
-      location: "Iceland",
-      rating: "4.9",
-    },
-    {
-      id: 11,
-      name: "Cape Town, South Africa",
-      description: "Famous for its stunning coastline, Table Mountain, and diverse cultural heritage.",
-      image: "/images/place_8.jpg",
-      location: "South Africa",
-      rating: "4.8",
-    },
-    {
-      id: 12,
-      name: "Prague, Czech Republic",
-      description: "Known for its beautiful architecture, historic Old Town, and vibrant arts scene.",
-      image: "/images/prague.jpg",
-      location: "Czech Republic",
-      rating: "4.7",
-    },
-  ];
+    try {
+      const response = await fetch('/api/find-nearest-places', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ latitude, longitude, placeName }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setPlaces(data);
+      setActiveStep(1); // Reset to first step when new data is fetched
+    } catch (err) {
+      console.error('Error fetching nearest places:', err.message);
+      setError(err.message);
+    }
+  };
+
+  const handleVisit = (placeName) => {
+    setVisitedPlaces((prevVisited) => new Set(prevVisited).add(placeName));
+  };
+
+  const handleRemove = (placeName) => {
+    setPlaces((prevPlaces) => prevPlaces.filter((place) => place.name !== placeName));
+    setVisitedPlaces((prevVisited) => {
+      const newVisited = new Set(prevVisited);
+      newVisited.delete(placeName);
+      return newVisited;
+    });
+  };
 
   return (
-    <>
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="relative">
-        {/* Back Button on Image */}
-        <div className="absolute top-4 left-4 z-10">
+    <div className="flex flex-col items-center p-8 bg-white space-y-8">
+      <h1 className="text-3xl font-semibold text-gray-800">Find Nearest Places</h1>
+
+      <form className="w-full max-w-lg space-y-6" onSubmit={findNearestPlaces}>
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-600">Place Name</label>
+          <input
+            type="text"
+            value={placeName}
+            onChange={(e) => setPlaceName(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter place name (e.g., Bandra)"
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-600">Latitude</label>
+          <input
+            type="text"
+            value={latitude}
+            onChange={(e) => setLatitude(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+            placeholder="Latitude"
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-600">Longitude</label>
+          <input
+            type="text"
+            value={longitude}
+            onChange={(e) => setLongitude(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500"
+            placeholder="Longitude"
+            required
+          />
+        </div>
+
         <button
-            onClick={() => router.back()}
-            style={{
-              position: 'absolute',
-              top: '10px',
-              left: '10px',
-              padding: '10px 20px',
-              backgroundColor: 'rgba(255, 255, 255, 0)',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '5px',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              transition: 'background-color 0.3s, transform 0.3s',
-              zIndex: 10, // Ensure the button is on top
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
-              e.target.style.transform = 'scale(1.05)';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
-              e.target.style.transform = 'scale(1)';
-            }}
-          >
-            Back
-          </button>
-        </div>
+          type="submit"
+          className="w-full py-3 bg-orange-500 text-white font-semibold rounded-md hover:bg-orange-600 focus:ring-4 focus:ring-orange-300"
+        >
+          Find Nearest Places
+        </button>
+      </form>
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-75"></div>
-        <img
-          src="/images/landing_page.jpg"
-          alt="Explore New Spots"
-          className="w-full h-96 object-cover"
-        />
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-          <h1 className="text-5xl font-bold text-white mb-4">
-            Explore New Spots
-          </h1>
-          <p className="text-lg text-white max-w-2xl">
-            Discover the best destinations around the world, from serene beaches to breathtaking mountains.
-            Start planning your next adventure today!
-          </p>
-        </div>
-      </div>
+      {error && <p className="text-red-500">{error}</p>}
 
-      {/* Information Section */}
-      <div className="py-12 px-8 max-w-6xl mx-auto text-center">
-        <h2 className="text-3xl font-semibold mb-4 text-gray-800">
-          Popular Destinations
-        </h2>
-        <p className="text-gray-600 text-lg max-w-3xl mx-auto mb-8">
-          Explore the most popular and highly rated spots that travelers recommend.
-          Find your dream destination, book your stay, and make unforgettable memories!
-        </p>
-      </div>
+      {/* Progress Tracker and Places List */}
+      <div className="grid grid-cols-[auto,1fr] gap-x-4 w-full max-w-lg mt-12">
+        {places.map((place, index) => {
+          const isVisited = visitedPlaces.has(place.name);
+          return (
+            <React.Fragment key={place.name}>
+              {/* Progress Tracker Circle and Line */}
+              <div className="flex flex-col items-center">
+                <div
+                  className={`w-6 h-6 rounded-full border-2 ${isVisited ? 'bg-blue-500 border-blue-500' : 'bg-white border-gray-300'}`}
+                >
+                  {isVisited && (
+                    <svg className="w-4 h-4 text-white mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                </div>
+                {/* Connecting line */}
+                {index !== places.length - 1 && <div className="w-1 bg-gray-300 flex-grow"></div>}
+              </div>
 
-      {/* Popular Spots Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-8 max-w-6xl mx-auto">
-        {popularSpots.map((spot) => (
-          <DestinationCard key={spot.id} image={spot.image} name={spot.name} location={spot.location} rating={spot.rating} />
-        ))}
-      </div>
-
-      {/* Call to Action Section */}
-      <div className="py-12 bg-gradient-to-r from-orange-500 to-yellow-500 text-white text-center mt-12">
-        <h2 className="text-4xl font-semibold mb-6">
-          Ready to explore?
-        </h2>
-        <p className="text-lg mb-8 max-w-2xl mx-auto">
-          Start planning your trip to your dream destination now. Find exclusive deals on hotels, tours, and flights.
-        </p>
-        <Link href="/bookings" className="bg-white text-gray-800 px-6 py-3 rounded-full text-lg font-semibold hover:bg-gray-200 transition">
-          Book Now
-        </Link>
+              {/* Place Card */}
+              <div className="flex items-center justify-between bg-white p-4 rounded-lg shadow-md mb-6">
+                <div className="text-sm font-medium text-gray-800">{place.name}</div>
+                <div className="flex space-x-4">
+                  <button
+                    onClick={() => handleVisit(place.name)}
+                    className="w-24 py-2 bg-orange-500 text-white font-semibold rounded-md hover:bg-orange-600 focus:ring-4 focus:ring-orange-300"
+                  >
+                    {isVisited ? 'Visited' : 'Mark as Visited'}
+                  </button>
+                  <button
+                    onClick={() => handleRemove(place.name)}
+                    className="w-24 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:ring-4 focus:ring-red-300"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        })}
       </div>
     </div>
-    </>
   );
-};
+}
 
-export default NewSpots;
+
+
+/*
+'use client';
+
+import { useEffect, useState } from 'react';
+
+export default function ViewExistingPlan() {
+  const [places, setPlaces] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        const response = await fetch('/api/find-nearest-places');
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setPlaces(data);
+      } catch (err) {
+        console.error('Error fetching places:', err.message);
+        setError(err.message);
+      }
+    };
+
+    fetchPlaces();
+  }, []);
+
+  return (
+    <div>
+      <h1>View Existing Plans</h1>
+      {error ? (
+        <p>Error: {error}</p>
+      ) : (
+        <ul>
+          {places.map((place, index) => (
+            <li key={index}>
+              <strong>{place.name}</strong>: {place.address}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+*/

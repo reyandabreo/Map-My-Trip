@@ -4,7 +4,7 @@ import { useSearchParams,useRouter } from "next/navigation";
 import { FaMapMarkerAlt, FaFlag, FaEdit, FaSave, FaTimes, FaTrophy, FaCheck, FaCamera, FaMapPin, FaCompass, FaMoneyBillWave } from "react-icons/fa";
 import { IoMdPerson, IoMdAirplane, IoMdRestaurant, IoMdBed } from "react-icons/io";
 import { MdLocationOn, MdDirectionsRun, MdOutlineLocationCity, MdHiking, MdBeachAccess } from "react-icons/md";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowLeft } from 'lucide-react';
 
 const ItineraryComponent = () => {
@@ -81,7 +81,7 @@ const ItineraryComponent = () => {
   useEffect(() => {
     const itineraryParam = searchParams.get("itinerary");
     const budgetParam = searchParams.get("budget");
-    const travelStyleParam = searchParams.get("travelStyle");
+    //const travelStyleParam = searchParams.get("travelStyle");
 
     if (itineraryParam) {
       try {
@@ -237,7 +237,7 @@ const ItineraryComponent = () => {
   };
 
   // Trigger animation for completion
-  const triggerCompletionAnimation = (dayIndex, activityIndex) => {
+  const triggerCompletionAnimation = () => {
     // Show confetti briefly
     setShowConfetti(true);
     setTimeout(() => setShowConfetti(false), 2000);
@@ -901,7 +901,7 @@ const ItineraryComponent = () => {
                     </defs>
                     
                     {itinerary.map((day, dayIndex) => 
-                      day.activities.map((activity, actIndex) => {
+                      day.activities.map((actIndex) => {
                         // Skip if it's the last activity overall
                         if (dayIndex === itinerary.length - 1 && actIndex === day.activities.length - 1) return null;
                         
