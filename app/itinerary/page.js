@@ -1025,4 +1025,6 @@ const ItineraryComponent = () => {
   );
 };
 
-export default ItineraryComponent;
+export default function Page(){
+  return <ItineraryComponent />;
+}

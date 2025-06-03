@@ -145,4 +145,6 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default function Page(){
+  return <ResetPassword />;
+}
