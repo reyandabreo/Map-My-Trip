@@ -99,6 +99,16 @@ const Header = ({ isLoggedIn, handleLogout, router }) => {
         <Link href="/navitems/Explore" className="hover:text-orange-500">Explore</Link>
         <Link href="/navitems/Trips" className="hover:text-orange-500">Trips</Link>
         <Link href="/navitems/UserReviews" className="hover:text-orange-500">Reviews</Link>
+        <button
+          className="bg-orange-500 text-white px-3 py-2 rounded-full"
+          onClick={() => {
+            router.push('/user-auth/SignUp');
+            setIsMenuOpen(false);
+          }}
+        >
+          Sign Up
+        </button>
+        
       </nav>
 
       {/* Sign-up and avatar section */}

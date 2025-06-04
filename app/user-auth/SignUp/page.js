@@ -86,9 +86,9 @@ function SignUp() {
           >
             Back
           </button>
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
+    <div className="flex flex-col md:flex-row min-h-screen items-center justify-center bg-gray-100 p-2 md:p-4">
       <div className="bg-white rounded-lg shadow-lg max-w-4xl w-full flex" style={{ margin: "20px", maxHeight: "90vh" }}>
-        <div className="w-1/2 p-10 overflow-y-auto">
+        <div className="w-full md:w-1/2 p-6 md:p-10 overflow-y-auto">
           <div className="mb-6 text-sm text-gray-600">
             Have an account?{" "}
             <a href="/user-auth/SignIn" className="text-orange-600 hover:underline">
@@ -192,7 +192,7 @@ function SignUp() {
           </form>
         </div>
 
-        <div className="w-1/2 rounded-r-lg flex items-center justify-center">
+        <div className="hidden md:flex w-1/2 rounded-r-lg flex items-center justify-center">
           <div
             className="w-full h-full bg-cover bg-center"
             style={{

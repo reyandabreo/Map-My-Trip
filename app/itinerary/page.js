@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from "react";
 import { useEffect, useState, useRef } from "react";
 import { useSearchParams,useRouter } from "next/navigation";
 import { FaMapMarkerAlt, FaFlag, FaEdit, FaSave, FaTimes, FaTrophy, FaCheck, FaCamera, FaMapPin, FaCompass, FaMoneyBillWave } from "react-icons/fa";
@@ -1026,5 +1027,9 @@ const ItineraryComponent = () => {
 };
 
 export default function Page(){
-  return <ItineraryComponent />;
+  return(
+    <Suspense fallback={<div>Loading...</div>}>
+      <ItineraryComponent />
+    </Suspense>
+  );
 }
