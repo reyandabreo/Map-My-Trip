@@ -12,9 +12,9 @@ function SignUp() {
   const router = useRouter(); // Initialize router for redirecting
 
   const validatePassword = (password) => {
-    const regex = /^[a-z0-9]+$/;
+    const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_\-+=\[\]{}|;:'",.<>?/\\])[A-Za-z\d!@#$%^&*()_\-+=\[\]{}|;:'",.<>?/\\]{8,}$/;
     if (!regex.test(password)) {
-      setPasswordError("Only letters: a-z and numbers: 0-9");
+      setPasswordError("Password should be  minimum length of 8 characters with at least one uppercase, lowercase, number and special symbol");
     } else {
       setPasswordError("");
     }
