@@ -62,13 +62,20 @@ const PopularPlacePage = ({ params }) => {
     return <div>Place not found!</div>;
   }
 
-  return (
-    <div className="container mx-auto px-44 py-8">
-      <h1 className="text-3xl font-bold mb-4">{place.name}</h1>
-      <img src={place.image} alt={place.name} className="w-full h-64 object-cover rounded-lg mb-4" />
-      <p>{place.description}</p>
-    </div>
-  );
+return (
+  <div className="container mx-auto px-4 sm:px-6 md:px-10 lg:px-20 py-6">
+    <h1 className="text-2xl sm:text-3xl font-bold mb-4">{place.name}</h1>
+    
+    <img 
+      src={place.image} 
+      alt={place.name} 
+      className="w-full h-48 sm:h-64 md:h-80 object-cover rounded-lg mb-4"
+    />
+    
+    <p className="text-base sm:text-lg">{place.description}</p>
+  </div>
+);
+
 };
 
 export default PopularPlacePage;
