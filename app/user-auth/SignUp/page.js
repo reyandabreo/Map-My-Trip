@@ -14,7 +14,7 @@ function SignUp() {
   const validatePassword = (password) => {
     const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_\-+=\[\]{}|;:'",.<>?/\\])[A-Za-z\d!@#$%^&*()_\-+=\[\]{}|;:'",.<>?/\\]{8,}$/;
     if (!regex.test(password)) {
-      setPasswordError("Password should be  minimum length of 8 characters with at least one uppercase, lowercase, number and special symbol");
+      setPasswordError("Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.");
     } else {
       setPasswordError("");
     }
