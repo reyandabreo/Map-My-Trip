@@ -92,133 +92,106 @@ const SearchBar = () => {
   return (
     <div className="flex flex-col items-center w-full p-4 space-y-4">
       {/* Category Toggle Section */}
-      <div className="flex flex-wrap justify-center space-x-4 md:space-x-6 mb-4 md:mb-6">
-        <div
-          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer transition-colors ${
-            activeCategory === "all" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-700"
-          }`}
-          onClick={() => handleCategoryClick("all")}
-        >
-          <FaHome />
-          <span className="text-sm md:text-base font-semibold">Search All</span>
-        </div>
-        <div
-          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer transition-colors ${
-            activeCategory === "hotels" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-700"
-          }`}
-          onClick={() => handleCategoryClick("hotels")}
-        >
-          <FaHotel />
-          <span className="text-sm md:text-base font-semibold">Hotels</span>
-        </div>
-        <div
-          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer transition-colors ${
-            activeCategory === "activities" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-700"
-          }`}
-          onClick={() => handleCategoryClick("activities")}
-        >
-          <MdLocalActivity />
-          <span className="text-sm md:text-base font-semibold">Things to Do</span>
-        </div>
-        <div
-          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer transition-colors ${
-            activeCategory === "restaurants" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-700"
-          }`}
-          onClick={() => handleCategoryClick("restaurants")}
-        >
-          <FaUtensils />
-          <span className="text-sm md:text-base font-semibold">Restaurants</span>
-        </div>
-        <div
-          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer transition-colors ${
-            activeCategory === "flights" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-700"
-          }`}
-          onClick={() => handleCategoryClick("flights")}
-        >
-          <FaPlane />
-          <span className="text-sm md:text-base font-semibold">Flights</span>
-        </div>
-        <div
-          className={`flex items-center space-x-1 md:space-x-2 cursor-pointer transition-colors ${
-            activeCategory === "homes" ? "border-b-2 border-orange-500 text-orange-500" : "text-gray-700"
-          }`}
-          onClick={() => handleCategoryClick("homes")}
-        >
-          <FaHouseUser />
-          <span className="text-sm md:text-base font-semibold">Holiday Homes</span>
-        </div>
+      <div className="flex flex-wrap justify-center gap-3 md:gap-6 mb-4 md:mb-6">
+        {[
+          { label: "Search All", icon: <FaHome />, category: "all" },
+          { label: "Hotels", icon: <FaHotel />, category: "hotels" },
+          { label: "Things to Do", icon: <MdLocalActivity />, category: "activities" },
+          { label: "Restaurants", icon: <FaUtensils />, category: "restaurants" },
+          { label: "Flights", icon: <FaPlane />, category: "flights" },
+          { label: "Holiday Homes", icon: <FaHouseUser />, category: "homes" },
+        ].map(({ label, icon, category }) => (
+          <div
+            key={category}
+            className={`flex items-center px-2 py-1 sm:px-3 sm:py-2 rounded-md cursor-pointer transition-colors ${
+              activeCategory === category
+                ? "border-b-2 border-orange-500 text-orange-500"
+                : "text-gray-700"
+            }`}
+            onClick={() => handleCategoryClick(category)}
+          >
+            <div className="text-lg sm:text-xl mr-1">{icon}</div>
+            <span className="text-sm sm:text-base font-semibold">{label}</span>
+          </div>
+        ))}
       </div>
 
       {/* Input Fields */}
       {activeCategory === "all" && (
-        <div className="w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-6">
-          <div className="relative">
-            <label className="text-xs md:text-sm text-gray-500 mb-1">Budget</label>
+        <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6">
+          {/* Budget */}
+          <div className="flex flex-col">
+            <label className="text-xs sm:text-sm text-gray-500 mb-1">Budget</label>
             <input
               type="number"
               placeholder="Enter Budget"
               value={budget}
               onChange={(e) => setBudget(e.target.value)}
-              className="w-full px-2 py-2 md:px-4 md:py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-orange-500 outline-none transition-shadow"
+              className="w-full px-3 py-2 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none transition-all text-sm sm:text-base"
               min="0"
             />
           </div>
 
-          <div className="relative">
-            <label className="text-xs md:text-sm text-gray-500 mb-1">No. of People</label>
+          {/* No. of People */}
+          <div className="flex flex-col">
+            <label className="text-xs sm:text-sm text-gray-500 mb-1">No. of People</label>
             <input
               type="number"
               placeholder="Number of People"
               value={people}
               onChange={(e) => setPeople(e.target.value)}
-              className="w-full px-2 py-2 md:px-4 md:py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-orange-500 outline-none transition-shadow"
+              className="w-full px-3 py-2 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none transition-all text-sm sm:text-base"
               min="1"
             />
           </div>
 
-          <div className="relative">
-            <label className="text-xs md:text-sm text-gray-500 mb-1">Start Date</label>
+          {/* Start Date */}
+          <div className="flex flex-col">
+            <label className="text-xs sm:text-sm text-gray-500 mb-1">Start Date</label>
             <input
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full px-2 py-2 md:px-4 md:py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-orange-500 outline-none transition-shadow"
+              className="w-full px-3 py-2 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none transition-all text-sm sm:text-base"
             />
           </div>
 
-          <div className="relative">
-            <label className="text-xs md:text-sm text-gray-500 mb-1">End Date</label>
+          {/* End Date */}
+          <div className="flex flex-col">
+            <label className="text-xs sm:text-sm text-gray-500 mb-1">End Date</label>
             <input
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="w-full px-2 py-2 md:px-4 md:py-2 bg-gray-50 rounded-lg border focus:ring-2 focus:ring-orange-500 outline-none transition-shadow"
+              className="w-full px-3 py-2 bg-gray-50 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none transition-all text-sm sm:text-base"
               min={startDate}
             />
           </div>
         </div>
+
+
       )}
 
       {/* Search Bar */}
-      <div className="flex items-center max-w-xl relative md:w-3/4 px-4 sm:px-2">
+      <div className="flex items-center w-full max-w-3xl relative px-2 sm:px-4">
         <input
           ref={inputRef}
           type="text"
           placeholder="Places to go, things to do, hotels..."
           value={inputValue}
           onChange={handleInputChange}
-          className="flex-grow px-4 py-3 sm:px-2 md:px-6 bg-gray-100 border border-gray-300 rounded-l-full text-gray-800 focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+          className="flex-grow px-3 py-2 sm:py-3 sm:px-4 bg-gray-100 border border-gray-300 rounded-l-full text-gray-800 focus:ring-2 focus:ring-orange-500 outline-none text-sm sm:text-base"
         />
         <button
-          className="bg-orange-500 text-white px-4 py-3 sm:px-2 md:px-6 rounded-r-full hover:bg-orange-600 transition-all"
-          onClick={handleSubmit} // Updated onClick handler
+          className="bg-orange-500 text-white px-3 py-2 sm:px-4 sm:py-3 rounded-r-full hover:bg-orange-600 transition-all text-sm sm:text-base"
+          onClick={handleSubmit}
         >
           Search
         </button>
 
         {/* Suggestions */}
         {suggestions.length > 0 && (
-          <ul className="absolute top-12 left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+          <ul className="absolute top-full mt-2 left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto text-sm sm:text-base">
             {suggestions.map((suggestion, index) => (
               <li
                 key={index}
@@ -231,6 +204,7 @@ const SearchBar = () => {
           </ul>
         )}
       </div>
+
     </div>
   );
 };
